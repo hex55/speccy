@@ -25,6 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../options_common.h"
 #include <ctype.h>
 
+#ifdef GCWZERO
+#include "../../speccy.h"
+#endif
+
 #ifdef USE_UI
 
 namespace xUi
@@ -44,8 +48,29 @@ eFileOpenDialog::eFileOpenDialog(const char* _path) : list(NULL), selected(NULL)
 void eFileOpenDialog::Init()
 {
 	background = COLOR_BACKGROUND;
-	eRect r(8, 8, 120, 180);
+	int marginLeft;
+	int marginTop;
+
+	#ifdef GCWZERO
+	    if(gcw_fullscreen)
+		{
+			marginLeft = 32;
+			marginTop = 24;
+		}
+		else
+		{
+			marginLeft = 8;
+			marginTop = 8;
+		}
+	#else
+		marginLeft = 8;
+		marginTop = 8;
+	#endif
+
+
+	eRect r(marginLeft, marginTop, 120, 180);
 	ePoint margin(6, 6);
+
 	Bound() = r;
 	list = new eList;
 	list->Bound() = eRect(margin.x, margin.y, r.Width() - margin.x, r.Height() - margin.y);

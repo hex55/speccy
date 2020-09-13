@@ -53,7 +53,7 @@ static struct eCachedColors
 			items_rgbx[c] = RGBX(r, g, b);
 		}
 	}
-	word items[16];
+	dword items[16];
 	dword items_rgbx[16];
 }
 color_cache;
@@ -61,7 +61,7 @@ color_cache;
 bool InitVideo()
 {
 #ifdef GCWZERO
-    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BPP, SDL_HWSURFACE|SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BPP, SDL_HWSURFACE);
 #else
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BPP, SDL_HWSURFACE);
 #endif
@@ -73,23 +73,27 @@ bool InitVideo()
 						screen->format->Rmask,
 						screen->format->Gmask,
 						screen->format->Bmask,
-						screen->format->Amask);
-	if(!offscreen)
+						0);
+	if(!offscreen){
 		return false;
+	}
 	color_cache.Init(screen->format);
 	return true;
 }
 void DoneVideo()
 {
-	if(offscreen)
+	if (offscreen) {
 		SDL_FreeSurface(offscreen);
-	if(screen)
+	}
+
+	if (screen) {
 		SDL_FreeSurface(screen);
+	}
 }
 
 void UpdateScreen()
 {
-
+	/*
 #ifdef GCWZERO
 	static int gcw_fullscreen_current = 0;
 	if (gcw_fullscreen_current != gcw_fullscreen)
@@ -105,10 +109,19 @@ void UpdateScreen()
 		}
 	}
 #endif
+	*/
 
-	SDL_LockSurface(offscreen);
+#ifdef SDL_NO_OFFSCREEN
+	SDL_Surface* out = screen;
+#else//SDL_NO_OFFSCREEN
+	SDL_Surface* out = offscreen;
+#endif//SDL_NO_OFFSCREEN
+
+	if(SDL_MUSTLOCK(out)){
+		SDL_LockSurface(out);
+	}
 	byte* data = (byte*)Handler()->VideoData();
-	word* scr = (word*)offscreen->pixels;
+	word* scr = (word*)out->pixels;
 #ifdef USE_UI
 	byte* data_ui = (byte*)Handler()->VideoDataUI();
 	if(data_ui)
@@ -121,7 +134,7 @@ void UpdateScreen()
 				xUi::eRGBAColor c = color_cache.items_rgbx[*data++];
 				*scr++ = SDL_MapRGB(screen->format, (c.r >> c_ui.a) + c_ui.r, (c.g >> c_ui.a) + c_ui.g, (c.b >> c_ui.a) + c_ui.b);
 			}
-			scr += offscreen->pitch - SCREEN_WIDTH * 2;
+			scr += out->pitch - SCREEN_WIDTH*sizeof(*scr);
 		}
 	}
 	else
@@ -136,12 +149,15 @@ void UpdateScreen()
 				*scr++ = color_cache.items[*data++];
 				*scr++ = color_cache.items[*data++];
 			}
-			scr += offscreen->pitch - SCREEN_WIDTH * 2;
+			scr += out->pitch - SCREEN_WIDTH*sizeof(*scr);
 		}
 	}
 
 
-	SDL_UnlockSurface(offscreen);
+	if(SDL_MUSTLOCK(out)){
+		SDL_UnlockSurface(out);
+	}
+
 #ifdef GCWZERO
 	if (gcw_fullscreen)
 	{
