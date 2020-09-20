@@ -93,8 +93,9 @@ void DoneVideo()
 
 void UpdateScreen()
 {
-	/*
+
 #ifdef GCWZERO
+	#ifndef SDL_POCKETGO_KEYS
 	static int gcw_fullscreen_current = 0;
 	if (gcw_fullscreen_current != gcw_fullscreen)
 	{
@@ -108,8 +109,9 @@ void UpdateScreen()
 			screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BPP, SDL_HWSURFACE|SDL_DOUBLEBUF);
 		}
 	}
+	#endif
 #endif
-	*/
+
 
 #ifdef SDL_NO_OFFSCREEN
 	SDL_Surface* out = screen;
@@ -132,7 +134,7 @@ void UpdateScreen()
 			{
 				xUi::eRGBAColor c_ui = xUi::palette[*data_ui++];
 				xUi::eRGBAColor c = color_cache.items_rgbx[*data++];
-				*scr++ = SDL_MapRGB(screen->format, (c.r >> c_ui.a) + c_ui.r, (c.g >> c_ui.a) + c_ui.g, (c.b >> c_ui.a) + c_ui.b);
+				*scr++ = SDL_MapRGB(out->format, (c.r >> c_ui.a) + c_ui.r, (c.g >> c_ui.a) + c_ui.g, (c.b >> c_ui.a) + c_ui.b);
 			}
 			scr += out->pitch - SCREEN_WIDTH*sizeof(*scr);
 		}
@@ -166,7 +168,13 @@ void UpdateScreen()
 		dst.y = BORDER_HEIGHT;
 		dst.w = SCREEN_WIDTH - 2 * dst.x;
 		dst.h = SCREEN_HEIGHT - 2 * dst.y;
+		
+		#ifdef SDL_POCKETGO_KEYS
+		SDL_Rect src = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+    	SDL_SoftStretch(offscreen, &dst, screen, &src);
+    	#else
 		SDL_BlitSurface(offscreen, &dst, screen, NULL);
+		#endif	    
 	}
 	else
 	{
