@@ -28,12 +28,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef SDL_POCKETGO_KEYS
 #define DINGOO_BUTTON_R             SDLK_BACKSPACE
 #define DINGOO_BUTTON_L             SDLK_TAB
+/*
+#define DINGOO_BUTTON_R2            SDLK_BACKSPACE
+#define DINGOO_BUTTON_L2            SDLK_TAB
+*/
 #endif	
 
 namespace xPlatform
 {
 
-	static bool l_shift = false, r_shift = false, b_select = false, b_start = false;
+	static bool l_shift = false, r_shift = false,
+				//l2_shift = false, r2_shift = false,
+	 			b_select = false, b_start = false;
 
 static bool ProcessFuncKey(SDL_Event& e)
 {
@@ -180,7 +186,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	//case SDLK_BACKSPACE:
 	case DINGOO_BUTTON_R:
 		//redefine R as save state
-		l_shift = _flags&KF_DOWN;
+		r_shift = _flags&KF_DOWN;
 		if(!ui_focused)
 		{
             using namespace xOptions;
@@ -188,11 +194,22 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
             SAFE_CALL(o)->Change();
         }
 		break;
-
+/*
+	case DINGOO_BUTTON_R2:
+		//redefine R2 as pause
+		r2_shift = _flags&KF_DOWN;
+		if(!ui_focused && r2_shift)
+		{
+			using namespace xOptions;
+			eOptionB* o = eOptionB::Find("pause");
+			SAFE_CALL(o)->Change();
+        }
+		break;
+*/
 	//case SDLK_TAB:
 	case DINGOO_BUTTON_L:
 		//redefine L as load state
-		r_shift = _flags&KF_DOWN;
+		l_shift = _flags&KF_DOWN;
 		if(!ui_focused)
         {
             using namespace xOptions;
@@ -200,7 +217,18 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
             SAFE_CALL(o)->Change();
         }
 		break;
-
+/*
+	case DINGOO_BUTTON_L2:
+		//redefine L2 as change Full screen
+		l2_shift = _flags&KF_DOWN;
+		if(!ui_focused && r_shift)
+        {
+            using namespace xOptions;
+			eOptionB* o = eOptionB::Find("fullscreen");
+			SAFE_CALL(o)->Change();
+        }
+		break;
+*/
 #else 
 	case SDLK_LCTRL:	return 'f';
 	case SDLK_BACKSPACE:
