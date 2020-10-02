@@ -53,7 +53,7 @@ static struct eCachedColors
 			items_rgbx[c] = RGBX(r, g, b);
 		}
 	}
-	dword items[16];
+	word items[16];
 	dword items_rgbx[16];
 }
 color_cache;

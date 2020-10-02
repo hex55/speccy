@@ -114,8 +114,15 @@ bool eMainDialog::OnKey(char key, dword flags)
 		}
 		else
 		{
-			//TODO esta el teclado abierto y se ha pulsado select 
-			//	para mapear la tecla sobre la que esta el teclado			
+			//el teclado abierto y se ha pulsado select 
+			//para mapear la tecla sobre la que esta el teclado	
+			
+   			using namespace xPlatform;
+			if(OpJoyKeyFlags() == KF_CUSTOM)
+			{
+				//Se esta usando el joystick CUSTOM
+				//Clear(); //Por ahora cierra el teclado si el joystick es custom
+			}
 		}
 		return true;
 #ifdef USE_PROFILER
