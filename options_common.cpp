@@ -153,7 +153,11 @@ static struct eOptionJoy : public xOptions::eOptionInt
 	virtual const char* Name() const { return "joystick"; }
 	virtual const char** Values() const
 	{
+		#ifdef CUSTOM_JOYSTICK
+		static const char* values[] = { "kempston", "cursor", "qaop", "sinclair2", "custom", NULL };
+		#else
 		static const char* values[] = { "kempston", "cursor", "qaop", "sinclair2", NULL };
+		#endif
 		return values;
 	}
 	virtual void Change(bool next = true)
@@ -235,6 +239,7 @@ dword OpJoyKeyFlags()
 	case J_CURSOR:		return KF_CURSOR;
 	case J_QAOP:		return KF_QAOP;
 	case J_SINCLAIR2:	return KF_SINCLAIR2;
+	case J_CUSTOM:		return KF_CUSTOM;
 	}
 	return KF_QAOP;
 }

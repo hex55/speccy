@@ -58,7 +58,11 @@ enum eKeyFlags
 	KF_QAOP = 0x40,
 	KF_SINCLAIR2 = 0x80,
 
-	KF_UI_SENDER = 0x100
+	#ifdef CUSTOM_JOYSTICK
+	KF_CUSTOM = 0x100,
+	#endif
+
+	KF_UI_SENDER = 0x200
 };
 enum eMouseAction { MA_MOVE, MA_BUTTON, MA_WHEEL };
 enum eAction

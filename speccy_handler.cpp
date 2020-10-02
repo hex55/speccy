@@ -41,6 +41,18 @@ int gcw_fullscreen = 0;
 bool showMenu = false;
 bool showKeyboard = false;
 
+#ifdef CUSTOM_JOYSTICK
+char customLeft = 'U';
+char customRight = 'I';
+char customUp = 'W';
+char customDown = 'S';
+char customB = 'M';
+char customA = 'W';
+char customY = '3';
+char customX = '4';
+//TODO char kCustom[5] = {'K','L','A',' ','Z'};/*Abadia del crimen*/;
+#endif
+
 namespace xPlatform
 {
 
@@ -253,6 +265,22 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 		case 'e' : key = '9'; break;
 		}
 	}
+	#ifdef CUSTOM_JOYSTICK
+	else if(flags&KF_CUSTOM)
+	{
+		switch(key)
+		{
+		case 'l' : key = customLeft; break;
+		case 'r' : key = customRight; break;
+		case 'u' : key = customUp; break;
+		case 'd' : key = customDown; break;
+		case 'f' : key = customB; break;
+		case 'e' : key = customA; break;
+		case '1' : key = customY; break;
+		case '2' : key = customX; break;
+		}
+	}
+	#endif
 	speccy->Device<eKeyboard>()->OnKey(key, down, shift, ctrl, alt);
 }
 void eSpeccyHandler::OnMouse(eMouseAction action, byte a, byte b)
