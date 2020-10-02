@@ -68,7 +68,7 @@ void eFileOpenDialog::Init()
 	#endif
 
 
-	eRect r(marginLeft, marginTop, 120, 180);
+	eRect r(marginLeft, marginTop, 120 + 40, 180);
 	ePoint margin(6, 6);
 
 	Bound() = r;
@@ -188,6 +188,8 @@ void eFileOpenDialog::OnNotify(byte n, byte from)
 	}
 	strcat(path, list->Item());
 	selected = path;
+	//Menu close
+	showMenu = false;
 	eInherited::OnNotify(n, id);
 }
 

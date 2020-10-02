@@ -86,7 +86,7 @@ void eMenu::Init()
 	ePoint margin(6, 6);
 
 	#ifdef GCWZERO
-		eRect r_dlg(ePoint(130, 2*margin.y));
+		eRect r_dlg(ePoint(160, 2*margin.y));
 	    if(gcw_fullscreen)
 		{
 			r_dlg.Move(ePoint(32, 24));

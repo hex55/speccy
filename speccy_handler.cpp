@@ -37,7 +37,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "options_common.h"
 #include "file_type.h"
 #include "snapshot/rzx.h"
-int gcw_fullscreen = 1;
+int gcw_fullscreen = 0;
+bool showMenu = false;
+bool showKeyboard = false;
 
 namespace xPlatform
 {
@@ -353,7 +355,7 @@ static struct eOptionFullscreen : public xOptions::eOptionBool
 	}
 	virtual void Apply()
 	{
-                gcw_fullscreen = !gcw_fullscreen;
+        gcw_fullscreen = !gcw_fullscreen;
 	}
 	virtual int Order() const { return 75; }
 } op_fullscreen;

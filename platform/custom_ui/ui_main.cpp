@@ -26,6 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../tools/profiler.h"
 #include "../../options_common.h"
 
+#ifdef GCWZERO
+#include "../../speccy.h"
+#endif
+
 #ifdef USE_UI
 
 namespace xUi
@@ -80,21 +84,38 @@ bool eMainDialog::OnKey(char key, dword flags)
 	switch(key)
 	{
 	case 'k':
-		Clear();
-		if(!f || id != D_KEYS)
+		if (showMenu == false) 
 		{
-			eKeyboard* d = new eKeyboard;
-			d->Id(D_KEYS);
-			Insert(d);
+			Clear();
+			showKeyboard = false;
+			if (!f || id != D_KEYS)
+			{
+				showMenu = false;
+				showKeyboard = true;
+				eKeyboard* d = new eKeyboard;
+				d->Id(D_KEYS);
+				Insert(d);
+			}
 		}
 		return true;
 	case 'm':
-		Clear();
-		if(!f || id != D_MENU)
+		if (showKeyboard == false)
 		{
-			eMenu* d = new eMenu;
-			d->Id(D_MENU);
-			Insert(d);
+			Clear();
+			showMenu = false;
+			if (!f || id != D_MENU)
+			{	
+				showMenu = true;
+				showKeyboard = false;
+				eMenu* d = new eMenu;
+				d->Id(D_MENU);
+				Insert(d);
+			}
+		}
+		else
+		{
+			//TODO esta el teclado abierto y se ha pulsado select 
+			//	para mapear la tecla sobre la que esta el teclado			
 		}
 		return true;
 #ifdef USE_PROFILER
