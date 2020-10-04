@@ -25,7 +25,7 @@ namespace xPlatform
 {
 
 #ifdef CUSTOM_JOYSTICK
-enum eJoystick { J_FIRST, J_KEMPSTON = J_FIRST, J_CURSOR, J_QAOP, J_SINCLAIR2, J_CUSTOM, J_LAST };
+enum eJoystick { J_FIRST, J_KEMPSTON = J_FIRST, J_CURSOR, J_QAOP, J_SINCLAIR2, J_KCUSTOM, J_LAST };
 #else
 enum eJoystick { J_FIRST, J_KEMPSTON = J_FIRST, J_CURSOR, J_QAOP, J_SINCLAIR2, J_LAST };
 #endif

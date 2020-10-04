@@ -22,13 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_menu.h"
 #include "ui_keyboard.h"
 #include "ui_file_open.h"
+#ifdef CUSTOM_JOYSTICK
+#include "ui_custom_joystick.h"
+#endif
 #include "../../tools/options.h"
 #include "../../tools/profiler.h"
 #include "../../options_common.h"
-
-#ifdef GCWZERO
-#include "../../speccy.h"
-#endif
 
 #ifdef USE_UI
 
@@ -47,6 +46,20 @@ static struct eOptionOpenFile : public xOptions::eOptionB
 	virtual void Change(bool next = true) { if(next) on = true; }
 	bool on;
 } op_open_file;
+
+#ifdef CUSTOM_JOYSTICK
+static struct eOptionJCustom : public xOptions::eOptionB
+{
+	eOptionJCustom() : on(false) { storeable = false; }
+	virtual const char* Name() const { return "custom joy"; }
+	//virtual const char*	Value() const { char* s = new char[8]; s = xPlatform::Handler()->CustomJoystick(); s[6] = '\0'; return strcat(s," >"); }
+
+	virtual const char*	Value() const { return ">"; }
+	virtual void Change(bool next = true) { if(next) on = true; }
+	virtual int Order() const { return 12; }
+	bool on;
+} custom_joy;
+#endif
 
 //=============================================================================
 //	eMainDialog::eMainDialog
@@ -73,6 +86,16 @@ void eMainDialog::Update()
 		d->Id(D_FILE_OPEN);
 		Insert(d);
 	}
+	#ifdef CUSTOM_JOYSTICK
+	if(custom_joy.on)
+	{
+		custom_joy.on = false;
+		Clear();
+		eDialog* d = new eCustomJoystickDialog(xPlatform::Handler()->CustomJoystick());
+		d->Id(D_CUSTOM_JOY);
+		Insert(d);
+	}
+	#endif
 }
 //=============================================================================
 //	eMainDialog::OnKey
@@ -84,45 +107,21 @@ bool eMainDialog::OnKey(char key, dword flags)
 	switch(key)
 	{
 	case 'k':
-		if (showMenu == false) 
+		Clear();
+		if (!f || id != D_KEYS)
 		{
-			Clear();
-			showKeyboard = false;
-			if (!f || id != D_KEYS)
-			{
-				showMenu = false;
-				showKeyboard = true;
-				eKeyboard* d = new eKeyboard;
-				d->Id(D_KEYS);
-				Insert(d);
-			}
+			eKeyboard* d = new eKeyboard;
+			d->Id(D_KEYS);
+			Insert(d);
 		}
 		return true;
 	case 'm':
-		if (showKeyboard == false)
-		{
-			Clear();
-			showMenu = false;
-			if (!f || id != D_MENU)
-			{	
-				showMenu = true;
-				showKeyboard = false;
-				eMenu* d = new eMenu;
-				d->Id(D_MENU);
-				Insert(d);
-			}
-		}
-		else
-		{
-			//el teclado abierto y se ha pulsado select 
-			//para mapear la tecla sobre la que esta el teclado	
-			
-   			using namespace xPlatform;
-			if(OpJoyKeyFlags() == KF_CUSTOM)
-			{
-				//Se esta usando el joystick CUSTOM
-				//Clear(); //Por ahora cierra el teclado si el joystick es custom
-			}
+		Clear();
+		if (!f || id != D_MENU)
+		{	
+			eMenu* d = new eMenu;
+			d->Id(D_MENU);
+			Insert(d);
 		}
 		return true;
 #ifdef USE_PROFILER
@@ -166,7 +165,19 @@ void eMainDialog::OnNotify(byte n, byte from)
 			Handler()->OnKey(key, flags);
 		}
 		break;
+
+	#ifdef CUSTOM_JOYSTICK
+	case D_CUSTOM_JOY:
+		{
+			eCustomJoystickDialog* d = (eCustomJoystickDialog*)*childs;
+			if(d->QuitCustom()){
+				clear = true;
+			}
+		}
+		break;
+	#endif
 	}
+
 }
 
 }

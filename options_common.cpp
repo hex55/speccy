@@ -239,7 +239,7 @@ dword OpJoyKeyFlags()
 	case J_CURSOR:		return KF_CURSOR;
 	case J_QAOP:		return KF_QAOP;
 	case J_SINCLAIR2:	return KF_SINCLAIR2;
-	case J_CUSTOM:		return KF_CUSTOM;
+	case J_KCUSTOM:		return KF_CUSTOM;
 	}
 	return KF_QAOP;
 }

@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef GCWZERO
 extern int gcw_fullscreen;
-extern bool showMenu;
-extern bool showKeyboard;
 #endif
 
 namespace xZ80 { class eZ80; }

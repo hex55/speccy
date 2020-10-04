@@ -38,20 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "file_type.h"
 #include "snapshot/rzx.h"
 int gcw_fullscreen = 0;
-bool showMenu = false;
-bool showKeyboard = false;
-
-#ifdef CUSTOM_JOYSTICK
-char customLeft = 'U';
-char customRight = 'I';
-char customUp = 'W';
-char customDown = 'S';
-char customB = 'M';
-char customA = 'W';
-char customY = '3';
-char customX = '4';
-//TODO char kCustom[5] = {'K','L','A',' ','Z'};/*Abadia del crimen*/;
-#endif
 
 namespace xPlatform
 {
@@ -125,6 +111,14 @@ static struct eSpeccyHandler : public eHandler, public eRZX::eHandler, public xZ
 		if(replay)
 			speccy->CPU()->HandlerIo(this);
 	}
+	#ifdef CUSTOM_JOYSTICK
+	char* CustomJoystick(void) { return &kCustom[0]; };
+	void SetCustomJoystick(char* joystick)
+	{
+		for(int i=0;i<5;i++)
+		  kCustom[i] = joystick[i];
+	}
+	#endif
 
 	eSpeccy* speccy;
 #ifdef USE_UI
@@ -137,6 +131,10 @@ static struct eSpeccyHandler : public eHandler, public eRZX::eHandler, public xZ
 
 	enum { SOUND_DEV_COUNT = 3 };
 	eDeviceSound* sound_dev[SOUND_DEV_COUNT];
+
+	#ifdef CUSTOM_JOYSTICK
+	char kCustom[5] = {'O','P','Q','A','M'};
+	#endif
 } sh;
 
 void eSpeccyHandler::OnInit()
@@ -270,14 +268,12 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 	{
 		switch(key)
 		{
-		case 'l' : key = customLeft; break;
-		case 'r' : key = customRight; break;
-		case 'u' : key = customUp; break;
-		case 'd' : key = customDown; break;
-		case 'f' : key = customB; break;
-		case 'e' : key = customA; break;
-		case '1' : key = customY; break;
-		case '2' : key = customX; break;
+		case 'l' : key = kCustom[0]; break;
+		case 'r' : key = kCustom[1]; break;
+		case 'u' : key = kCustom[2]; break;
+		case 'd' : key = kCustom[3]; break;
+		case 'f' : key = kCustom[4]; break;
+		case 'e' : key = kCustom[2]; break;
 		}
 	}
 	#endif

@@ -102,7 +102,11 @@ struct eHandler
 	virtual void* AudioData(int source) = 0;
 	virtual dword AudioDataReady(int source) = 0;
 	virtual void AudioDataUse(int source, dword size) = 0;
-
+	#ifdef CUSTOM_JOYSTICK
+	//Custom Joystick
+	virtual char* CustomJoystick(void) = 0;
+	virtual void SetCustomJoystick(char* joystick) = 0;
+	#endif
 	virtual bool FullSpeed() const = 0;
 };
 

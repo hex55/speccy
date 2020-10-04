@@ -37,7 +37,12 @@ public:
 	virtual bool OnKey(char key, dword flags);
 protected:
 	virtual void OnNotify(byte n, byte from);
+#ifdef CUSTOM_JOYSTICK
+	enum eDialogId { D_FILE_OPEN, D_KEYS, D_MENU, D_CUSTOM_JOY, D_PROFILER };
+#else
 	enum eDialogId { D_FILE_OPEN, D_KEYS, D_MENU, D_PROFILER };
+#endif
+
 	bool Focused() const { return childs[0] != NULL; }
 protected:
 	bool clear;

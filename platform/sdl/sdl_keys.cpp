@@ -88,12 +88,16 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	case SDLK_ESCAPE: // DINGOO_BUTTON_SELECT:
 		b_select = _flags&KF_DOWN;
 		if(b_select && b_start)
+		{
 			OpQuit(true);
+		}
 		return 'm';
 	case SDLK_RETURN: // DINGOO_BUTTON_START:
 		b_start = _flags&KF_DOWN;
 		if(b_select && b_start)
+		{
 			OpQuit(true);
+		}
 		return 'k';
 #else		
 	case SDLK_RSHIFT:	return 'c';

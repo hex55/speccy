@@ -188,8 +188,6 @@ void eFileOpenDialog::OnNotify(byte n, byte from)
 	}
 	strcat(path, list->Item());
 	selected = path;
-	//Menu close
-	showMenu = false;
 	eInherited::OnNotify(n, id);
 }
 
