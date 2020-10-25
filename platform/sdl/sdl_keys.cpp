@@ -185,20 +185,42 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	case SDLK_RIGHT:	return 'r';
 #ifdef SDL_POCKETGO_KEYS
 	case SDLK_SPACE:    return '1'; /*Y BUTTON*/
-	case SDLK_LCTRL:	return 'f'; /*B BUTTON */
-	case SDLK_LSHIFT:	return '2'; /*X BUTTON */
-	case SDLK_LALT:		return 'u'; /*A BUITTON*/
+	//case SDLK_LCTRL:	return 'f'; /*B BUTTON*/
+	case SDLK_LSHIFT:	return '2'; /*X BUTTON*/
+	//case SDLK_LALT:		return 'u'; /*A BUTTON*/
 
 	//case SDLK_BACKSPACE:
 	case DINGOO_BUTTON_R:
 		//redefine R as save state
 		r_shift = _flags&KF_DOWN;
-		if(!ui_focused)
+		break;
+
+	case SDLK_LCTRL: /*B BUTTON*/
+		//redefine R + B as save state
+		if(!ui_focused && r_shift)
+        {
+            using namespace xOptions;
+            eOptionB* o = eOptionB::Find("load state");
+            SAFE_CALL(o)->Change();
+        }
+        else 
+        {
+        	return 'f';
+		}
+		break;
+
+	case SDLK_LALT: /*A BUTTON*/
+		//redefine R + A as load state
+		if(!ui_focused && r_shift)
 		{
             using namespace xOptions;
             eOptionB* o = eOptionB::Find("save state");
             SAFE_CALL(o)->Change();
         }
+        else
+        {
+        	return 'u';
+		}
 		break;
 
 	//case SDLK_RSHIFT:
@@ -210,18 +232,6 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 			using namespace xOptions;
 			eOptionB* o = eOptionB::Find("pause");
 			SAFE_CALL(o)->Change();
-        }
-		break;
-
-	//case SDLK_TAB:
-	case DINGOO_BUTTON_L:
-		//redefine L as load state
-		l_shift = _flags&KF_DOWN;
-		if(!ui_focused)
-        {
-            using namespace xOptions;
-            eOptionB* o = eOptionB::Find("load state");
-            SAFE_CALL(o)->Change();
         }
 		break;
 
