@@ -44,7 +44,7 @@ class eCustomJoystickDialog : public eDialog
 public:
 	eCustomJoystickDialog(char* oJoystick) : dpad(true), keyboard(false), quitCustom(false), joy_key('\0'), clear(false), lastKey('.')
 	{
-		for(int i=0;i<5;i++)
+		for(int i=0;i<10;i++)
 			joystick[i] = oJoystick[i];
 	}
 	virtual void Update();
@@ -63,7 +63,7 @@ protected:
 	virtual void OnNotify(byte n, byte from);
 	void ParseKey(char key, dword _flags);
 protected:
-	char  joystick[5];
+	char  joystick[10];
 	bool  dpad;
 	bool  keyboard;
 	bool  quitCustom;

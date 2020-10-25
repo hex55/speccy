@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "speccy.h"
 #include "devices/memory.h"
 #include "devices/ula.h"
-#include "devices/input/keyboard.h"
+#include "devices/input/keyboard.h"	
 #include "devices/input/kempston_joy.h"
 #include "devices/input/kempston_mouse.h"
 #include "devices/input/tape.h"
@@ -115,7 +115,7 @@ static struct eSpeccyHandler : public eHandler, public eRZX::eHandler, public xZ
 	char* CustomJoystick(void) { return &kCustom[0]; };
 	void SetCustomJoystick(char* joystick)
 	{
-		for(int i=0;i<5;i++)
+		for(int i=0;i<10;i++)
 		  kCustom[i] = joystick[i];
 	}
 	#endif
@@ -133,7 +133,7 @@ static struct eSpeccyHandler : public eHandler, public eRZX::eHandler, public xZ
 	eDeviceSound* sound_dev[SOUND_DEV_COUNT];
 
 	#ifdef CUSTOM_JOYSTICK
-	char kCustom[5] = {'O','P','Q','A','M'};
+	char kCustom[10] = {'O','P','Q','A','M','Q','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
 	#endif
 } sh;
 
@@ -231,36 +231,51 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 	{
 		switch(key)
 		{
-		case 'l' : key = '5'; shift = down; break;
-		case 'r' : key = '8'; shift = down; break;
-		case 'u' : key = '7'; shift = down; break;
-		case 'd' : key = '6'; shift = down; break;
-		case 'f' : key = '0'; shift = false; break;
-		case 'e' : key = '7'; shift = down; break;
+		case 'l' : key = '5'; shift = down; break; /* Left button */
+		case 'r' : key = '8'; shift = down; break; /* Right button */
+		case 'u' : key = '7'; shift = down; break; /* Up button */
+		case 'd' : key = '6'; shift = down; break; /* Down button */
+		case 'f' : key = '0'; shift = false; break;/* B button */
+		case 'e' : key = '7'; shift = down; break; /* A button */
+		//TODO PONER EL RESTO DE ELEMENTO, comprobar
+		case '1' : key = '1'; break; /* Y button */
+		case '2' : key = '2'; break; /* X button */
+		case '3' : key = '3'; break; /* L button */
+		case '4' : key = '4'; break; /* R button */
 		}
 	}
 	else if(flags&KF_QAOP)
 	{
 		switch(key)
 		{
-		case 'l' : key = 'O'; break;
-		case 'r' : key = 'P'; break;
-		case 'u' : key = 'Q'; break;
-		case 'd' : key = 'A'; break;
-		case 'f' : key = ' '; break;
-		case 'e' : key = 'Q'; break;
+		case 'l' : key = 'O'; break; /* Left button */
+		case 'r' : key = 'P'; break; /* Right button */
+		case 'u' : key = 'Q'; break; /* Up button */
+		case 'd' : key = 'A'; break; /* Down button */
+		case 'f' : key = ' '; break; /* B button */
+		case 'e' : key = 'Q'; break; /* A button */
+		//TODO PONER EL RESTO DE ELEMENTO, comprobar
+		case '1' : key = '1'; break; /* Y button */
+		case '2' : key = '2'; break; /* X button */
+		case '3' : key = '3'; break; /* L button */
+		case '4' : key = '4'; break; /* R button */
 		}
 	}
 	else if(flags&KF_SINCLAIR2)
 	{
 		switch(key)
 		{
-		case 'l' : key = '6'; break;
-		case 'r' : key = '7'; break;
-		case 'u' : key = '9'; break;
-		case 'd' : key = '8'; break;
-		case 'f' : key = '0'; break;
-		case 'e' : key = '9'; break;
+		case 'l' : key = '6'; break; /* Left button */
+		case 'r' : key = '7'; break; /* Right button */
+		case 'u' : key = '9'; break; /* Up button */
+		case 'd' : key = '8'; break; /* Down button */
+		case 'f' : key = '0'; break; /* B button */
+		case 'e' : key = '9'; break; /* A button */
+		//TODO PONER EL RESTO DE ELEMENTO, comprobar
+		case '1' : key = '1'; break; /* Y button */
+		case '2' : key = '2'; break; /* X button */
+		case '3' : key = '3'; break; /* L button */
+		case '4' : key = '4'; break; /* R button */
 		}
 	}
 	#ifdef CUSTOM_JOYSTICK
@@ -268,12 +283,16 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 	{
 		switch(key)
 		{
-		case 'l' : key = kCustom[0]; break;
-		case 'r' : key = kCustom[1]; break;
-		case 'u' : key = kCustom[2]; break;
-		case 'd' : key = kCustom[3]; break;
-		case 'f' : key = kCustom[4]; break;
-		case 'e' : key = kCustom[2]; break;
+		case 'l' : key = kCustom[0]; break; /* Left button */
+		case 'r' : key = kCustom[1]; break; /* Right button */
+		case 'u' : key = kCustom[2]; break; /* Up button */
+		case 'd' : key = kCustom[3]; break; /* Down button */
+		case 'f' : key = kCustom[4]; break; /* B button */
+		case 'e' : key = kCustom[5]; break; /* A button */
+		case '1' : key = kCustom[6]; break; /* Y button */
+		case '2' : key = kCustom[7]; break; /* X button */
+		case '3' : key = kCustom[8]; break; /* L button */
+		case '4' : key = kCustom[9]; break; /* R button */
 		}
 	}
 	#endif
@@ -371,7 +390,12 @@ static struct eOptionResetToServiceRom : public xOptions::eOptionBool
 #ifdef GCWZERO
 static struct eOptionFullscreen : public xOptions::eOptionBool
 {
-	virtual const char* Name() const { return "fullscreen"; }
+	#ifdef V90
+	virtual const char* Name() const { return "fullscreen (L2)"; }
+	#else
+	virtual const char*	Name() const { return "fullscreen"; }
+	#endif
+
 	virtual void Change(bool next = true)
 	{
 		eOptionBool::Change();

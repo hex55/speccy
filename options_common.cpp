@@ -50,6 +50,7 @@ struct eOptionState : public xOptions::eOptionBool
 static struct eOptionSaveState : public eOptionState
 {
 	virtual const char* Name() const { return "save state"; }
+	virtual const char*	Value() const { return "(R + A)"; }
 	virtual void Change(bool next = true)
 	{
 		const char* name = SnapshotName();
@@ -64,6 +65,7 @@ static struct eOptionSaveState : public eOptionState
 static struct eOptionLoadState : public eOptionState
 {
 	virtual const char* Name() const { return "load state"; }
+	virtual const char*	Value() const { return "(R + B)"; }
 	virtual void Change(bool next = true)
 	{
 		const char* name = SnapshotName();
@@ -100,7 +102,12 @@ static struct eOptionTape : public xOptions::eOptionInt
 static struct eOptionPause : public xOptions::eOptionBool
 {
 	eOptionPause() { storeable = false; }
+	#ifdef V90
+	virtual const char*	Name() const { return "pause (R2)"; }
+	#else
 	virtual const char* Name() const { return "pause"; }
+	#endif
+
 	virtual void Change(bool next = true)
 	{
 		eOptionBool::Change();

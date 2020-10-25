@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace xPlatform
 {
 
-	static bool l_shift = false, r_shift = false,
+	static bool /*l_shift = false, */r_shift = false,
 				l2_shift = false, r2_shift = false,
 	 			b_select = false, b_start = false;
 
@@ -103,10 +103,10 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	case SDLK_RSHIFT:	return 'c';
 	case SDLK_RALT:		return 's';
 
-	case SDLK_LSHIFT:	return 'c';
-	case SDLK_LALT:		return 's';
+	case SDLK_LSHIFT:	return 'c'; 
+	case SDLK_LALT:		return 's'; 
 
-	case SDLK_RETURN:	return 'e';
+	case SDLK_RETURN:	return 'e'; 
 #endif	
 	case SDLK_BACKQUOTE: return 'p';
 	// case SDLK_BACKSPACE:
@@ -181,18 +181,23 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	// 	_flags |= KF_ALT;
 	// 	_flags |= KF_SHIFT;
 	// 	return 0;
-	case SDLK_LEFT:		return 'l';
-	case SDLK_RIGHT:	return 'r';
+	case SDLK_LEFT:		return 'l'; /* Left button */
+	case SDLK_RIGHT:	return 'r'; /* Right button */
 #ifdef SDL_POCKETGO_KEYS
 	case SDLK_SPACE:    return '1'; /*Y BUTTON*/
 	//case SDLK_LCTRL:	return 'f'; /*B BUTTON*/
 	case SDLK_LSHIFT:	return '2'; /*X BUTTON*/
 	//case SDLK_LALT:		return 'u'; /*A BUTTON*/
 
+	case DINGOO_BUTTON_L:
+    	return '3';
+		break;
+
 	//case SDLK_BACKSPACE:
 	case DINGOO_BUTTON_R:
 		//redefine R as save state
 		r_shift = _flags&KF_DOWN;
+    	return '4';
 		break;
 
 	case SDLK_LCTRL: /*B BUTTON*/
@@ -219,7 +224,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         }
         else
         {
-        	return 'u';
+        	return 'e';
 		}
 		break;
 
@@ -230,7 +235,11 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		if(!ui_focused && r2_shift)
 		{
 			using namespace xOptions;
-			eOptionB* o = eOptionB::Find("pause");
+			#ifdef V90
+			eOptionB* o = eOptionB::Find("pause (R2)");
+			#else
+			eOptionB* o = eOptionB::Find("pause");			
+			#endif
 			SAFE_CALL(o)->Change();
         }
 		break;
@@ -242,13 +251,18 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		if(!ui_focused && l2_shift)
         {
             using namespace xOptions;
-			eOptionB* o = eOptionB::Find("fullscreen");
+			#ifdef V90
+			eOptionB* o = eOptionB::Find("fullscreen (L2)");
+			#else
+			eOptionB* o = eOptionB::Find("fullscreen");			
+			#endif
+
 			SAFE_CALL(o)->Change();
         }
 		break;
 
 #else 
-	case SDLK_LCTRL:	return 'f';
+	case SDLK_LCTRL:	return 'f'; /* B button */
 	case SDLK_BACKSPACE:
 	 	_flags |= KF_SHIFT;
 	 	return '0';
@@ -258,8 +272,8 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	 	_flags |= KF_SHIFT;
 	 	return 0;
 #endif
-	case SDLK_UP:		return 'u';
-	case SDLK_DOWN:		return 'd';
+	case SDLK_UP:		return 'u'; /* Up button */
+	case SDLK_DOWN:		return 'd'; /* Down button */
 	case SDLK_INSERT:
 #ifdef SDL_POCKETGO_KEYS
 case SDLK_RCTRL: return 'm'; /* Reset button*/ //OpQuit(true);

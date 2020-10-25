@@ -27,9 +27,9 @@ namespace xUi
 
 static const char* joy_buttons[] =
 {
-	"X", "^", " ",
-	"<", "*", ">",
-	" ", "v", " ",
+	"X", "^", " ", "L", "R",
+	"<", " ", ">", "Y", "Z",
+	" ", "v", " ", "B", "A"
 };
 
 //=============================================================================
@@ -39,7 +39,7 @@ void eCJPad::Init()
 {
 	background = COLOR_BACKGROUND;
 	ePoint margin(6, 6);
-	eRect r_dlg(ePoint((FontSize().x * 8 + margin.x ) * 3 + margin.x, ( FontSize().y + margin.y ) * 3 + margin.y));
+	eRect r_dlg(ePoint((FontSize().x * 8 + margin.x ) * 4 + margin.x, ( FontSize().y + margin.y ) * 3 + margin.y));
 	if(gcw_fullscreen)
 	{
 		r_dlg.Move(ePoint(32, 24));
@@ -50,16 +50,16 @@ void eCJPad::Init()
 	}
 	Bound() = r_dlg;
 
-	eRect r_item(ePoint(FontSize().x * 8, FontSize().y));
+	eRect r_item(ePoint(FontSize().x * 15, FontSize().y));
 	ePoint delta;
-	delta.x = FontSize().x * 8 + margin.x;
+	delta.x = FontSize().x * 15 + margin.x;
 	delta.y = FontSize().y + margin.y;
 	r_item.Move(margin);
 	char* joystick = xPlatform::Handler()->CustomJoystick();
 	for(int col = 0; col < 3; ++col)
 	{
 		eRect r = r_item;
-		for(int row = 0; row < 3; ++row)
+		for(int row = 0; row < 5; ++row)
 		{
 			const char* s = joy_buttons[col * 3 + row];
 			if(*s != ' ')
@@ -93,11 +93,37 @@ void eCJPad::Init()
 				    text[1] = joystick[3];
 				    b->Text(text);
 				    break;
-				case '*':
-					strcpy(text,"[ ]Fire");
+				case 'B':
+					strcpy(text,"[ ]B");
 				    text[1] = joystick[4];
 				    b->Text(text);
 				    break;
+				case 'A':
+					strcpy(text,"[ ]A");
+				    text[1] = joystick[5];
+				    b->Text(text);
+				    break;
+				case 'Y':
+					strcpy(text,"[ ]Y");
+				    text[1] = joystick[6];
+				    b->Text(text);
+				    break;
+				case 'Z':
+					strcpy(text,"[ ]X");
+				    text[1] = joystick[7];
+				    b->Text(text);
+				    break;
+				case 'L':
+					strcpy(text,"[ ]L");
+				    text[1] = joystick[8];
+				    b->Text(text);
+				    break;
+				case 'R':
+					strcpy(text,"[ ]R");
+				    text[1] = joystick[9];
+				    b->Text(text);
+				    break;
+				    //	char kCustom[5] = {'O','P','Q','A','M','Q','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R)}*/
 				default:
 					b->Text(s);
 					break;
@@ -173,7 +199,12 @@ void eCustomJoystickDialog::OnNotify(byte n, byte from)
 			case 'v':
 			case '<':
 			case '>':
-			case '*':
+			case 'A':
+			case 'B':
+			case 'Y':
+			case 'Z':
+			case 'L':
+			case 'R':
 				clear = true;
 				keyboard = true;
 				dpad = false;
@@ -211,7 +242,12 @@ void eCustomJoystickDialog::ParseKey(char key, dword _flags)
 			case '>': joystick[1] = key; break;
 			case '^': joystick[2] = key; break;
 			case 'v': joystick[3] = key; break;
-			case '*': joystick[4] = key; break;
+			case 'B': joystick[4] = key; break;
+			case 'A': joystick[5] = key; break;
+			case 'Y': joystick[6] = key; break;
+			case 'Z': joystick[7] = key; break;
+			case 'L': joystick[8] = key; break;
+			case 'R': joystick[9] = key; break;
 		}
 	}
 	Handler()->SetCustomJoystick(joystick);
