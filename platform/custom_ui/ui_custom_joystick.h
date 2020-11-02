@@ -44,8 +44,10 @@ class eCustomJoystickDialog : public eDialog
 public:
 	eCustomJoystickDialog(char* oJoystick) : dpad(true), keyboard(false), quitCustom(false), joy_key('\0'), clear(false), lastKey('.')
 	{
-		for(int i=0;i<10;i++)
+		for(int i = 0; i < 10; i++)
+		{
 			joystick[i] = oJoystick[i];
+		}
 	}
 	virtual void Update();
 	const char* Joystick() const { return joystick; }

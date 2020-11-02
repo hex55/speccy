@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern int gcw_fullscreen;
 #endif
 
+#ifdef CUSTOM_JOYSTICK
+extern char kCustom[10];
+#endif
+
 namespace xZ80 { class eZ80; }
 class eMemory;
 

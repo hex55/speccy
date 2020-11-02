@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../tools/profiler.h"
 #include "../../options_common.h"
 
+#include "../../speccy.h"
+
 #ifdef USE_UI
 
 namespace xUi
@@ -52,7 +54,7 @@ static struct eOptionJCustom : public xOptions::eOptionB
 {
 	eOptionJCustom() : on(false) { storeable = false; }
 	virtual const char* Name() const { return "custom joy"; }
-	//virtual const char*	Value() const { char* s = new char[8]; s = xPlatform::Handler()->CustomJoystick(); s[6] = '\0'; return strcat(s," >"); }
+	//virtual const char*	Value() const { char* s = new char[8]; s = xPlatform::Handler()->CustomJoystick(); s[11] = '\0'; return strcat(s," >"); }
 
 	virtual const char*	Value() const { return ">"; }
 	virtual void Change(bool next = true) { if(next) on = true; }
@@ -91,7 +93,7 @@ void eMainDialog::Update()
 	{
 		custom_joy.on = false;
 		Clear();
-		eDialog* d = new eCustomJoystickDialog(xPlatform::Handler()->CustomJoystick());
+		eDialog* d = new eCustomJoystickDialog(kCustom);
 		d->Id(D_CUSTOM_JOY);
 		Insert(d);
 	}

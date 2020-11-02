@@ -39,6 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "snapshot/rzx.h"
 int gcw_fullscreen = 0;
 
+#ifdef CUSTOM_JOYSTICK
+char kCustom[10] = {'O','P','Q','A','M',' ','9','8','7','6'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
+#endif
+
 namespace xPlatform
 {
 
@@ -111,14 +115,6 @@ static struct eSpeccyHandler : public eHandler, public eRZX::eHandler, public xZ
 		if(replay)
 			speccy->CPU()->HandlerIo(this);
 	}
-	#ifdef CUSTOM_JOYSTICK
-	char* CustomJoystick(void) { return &kCustom[0]; };
-	void SetCustomJoystick(char* joystick)
-	{
-		for(int i=0;i<10;i++)
-		  kCustom[i] = joystick[i];
-	}
-	#endif
 
 	eSpeccy* speccy;
 #ifdef USE_UI
@@ -132,9 +128,6 @@ static struct eSpeccyHandler : public eHandler, public eRZX::eHandler, public xZ
 	enum { SOUND_DEV_COUNT = 3 };
 	eDeviceSound* sound_dev[SOUND_DEV_COUNT];
 
-	#ifdef CUSTOM_JOYSTICK
-	char kCustom[10] = {'O','P','Q','A','M','Q','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
-	#endif
 } sh;
 
 void eSpeccyHandler::OnInit()
@@ -237,11 +230,6 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 		case 'd' : key = '6'; shift = down; break; /* Down button */
 		case 'f' : key = '0'; shift = false; break;/* B button */
 		case 'e' : key = '7'; shift = down; break; /* A button */
-		//TODO PONER EL RESTO DE ELEMENTO, comprobar
-		case '1' : key = '1'; break; /* Y button */
-		case '2' : key = '2'; break; /* X button */
-		case '3' : key = '3'; break; /* L button */
-		case '4' : key = '4'; break; /* R button */
 		}
 	}
 	else if(flags&KF_QAOP)
@@ -254,11 +242,6 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 		case 'd' : key = 'A'; break; /* Down button */
 		case 'f' : key = ' '; break; /* B button */
 		case 'e' : key = 'Q'; break; /* A button */
-		//TODO PONER EL RESTO DE ELEMENTO, comprobar
-		case '1' : key = '1'; break; /* Y button */
-		case '2' : key = '2'; break; /* X button */
-		case '3' : key = '3'; break; /* L button */
-		case '4' : key = '4'; break; /* R button */
 		}
 	}
 	else if(flags&KF_SINCLAIR2)
@@ -271,11 +254,6 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 		case 'd' : key = '8'; break; /* Down button */
 		case 'f' : key = '0'; break; /* B button */
 		case 'e' : key = '9'; break; /* A button */
-		//TODO PONER EL RESTO DE ELEMENTO, comprobar
-		case '1' : key = '1'; break; /* Y button */
-		case '2' : key = '2'; break; /* X button */
-		case '3' : key = '3'; break; /* L button */
-		case '4' : key = '4'; break; /* R button */
 		}
 	}
 	#ifdef CUSTOM_JOYSTICK
