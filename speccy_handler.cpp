@@ -41,6 +41,8 @@ int gcw_fullscreen = 0;
 
 #ifdef CUSTOM_JOYSTICK
 char kCustom[10] = {'O','P','Q','A','M',' ','9','8','7','6'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
+bool shiftCont = false;
+bool altCont = false;
 #endif
 
 namespace xPlatform
@@ -202,6 +204,22 @@ const char* eSpeccyHandler::RZXErrorDesc(eRZX::eError err) const
 	}
 	return NULL;
 }
+void ProccessCapsSymbol(char key, bool down)
+{
+	if (key == 'c' && down) {
+		shiftCont = true;
+	}
+	if (key == 's' && down) {
+		altCont = true;
+	}
+	if (key == 'c' && !down) {
+		shiftCont = false;
+	}
+	if (key == 's' && !down) {
+		altCont = false;
+	}
+}
+
 void eSpeccyHandler::OnKey(char key, dword flags)
 {
 	bool down = (flags&KF_DOWN) != 0;
@@ -263,53 +281,63 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 		{
 		case 'l' : 
 			key = kCustom[0];
-			shift = kCustom[0] == 'c' ? down : false;
-			alt = kCustom[0] == 's' ? down : false;
-		  	break; /* Left button */
+			ProccessCapsSymbol(kCustom[0], down);
+			shift = shiftCont;
+			alt = altCont;
+			break; /* Left button */
 		case 'r' : 
 			key = kCustom[1];
-			shift = kCustom[1] == 'c' ? down : false;
-			alt = kCustom[1] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[1], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* Right button */
 		case 'u' : 
 			key = kCustom[2];
-			shift = kCustom[2] == 'c' ? down : false;
-			alt = kCustom[2] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[2], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* Up button */
 		case 'd' : 
 			key = kCustom[3];
-			shift = kCustom[3] == 'c' ? down : false;
-			alt = kCustom[3] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[3], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* Down button */
 		case 'f' : 
 			key = kCustom[4];
-			shift = kCustom[4] == 'c' ? down : false;
-			alt = kCustom[4] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[4], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* B button */
 		case 'e' : 
 			key = kCustom[5];
-			shift = kCustom[5] == 'c' ? down : false;
-			alt = kCustom[5] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[5], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* A button */
 		case '1' : 
 			key = kCustom[6];
-			shift = kCustom[6] == 'c' ? down : false;
-			alt = kCustom[6] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[6], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* Y button */
 		case '2' : 
-			key = kCustom[7];			
-			shift = kCustom[7] == 'c' ? down : false;
-			alt = kCustom[7] == 's' ? down : false;
+			key = kCustom[7];
+			ProccessCapsSymbol(kCustom[7], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* X button */
 		case '3' : 
 			key = kCustom[8];
-			shift = kCustom[8] == 'c' ? down : false;
-			alt = kCustom[8] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[8], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* L button */
 		case '4' : 
 			key = kCustom[9];
-			shift = kCustom[2] == 'c' ? down : false;
-			alt = kCustom[2] == 's' ? down : false;
+			ProccessCapsSymbol(kCustom[9], down);
+			shift = shiftCont;
+			alt = altCont;
 			break; /* R button */
 		}
 	}
