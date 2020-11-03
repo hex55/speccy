@@ -33,6 +33,17 @@ static const char* joy_buttons[] =
 };
 
 //=============================================================================
+//	eCJPad::AllocateText
+//-----------------------------------------------------------------------------
+byte eCJPad::AllocateText(char key) const
+{
+	if (key == 's') return '$';
+	if (key == 'c') return '#';
+	if (key == 'e') return '=';
+	return key;
+}
+
+//=============================================================================
 //	eCJPad::Init
 //-----------------------------------------------------------------------------
 void eCJPad::Init()
@@ -77,52 +88,52 @@ void eCJPad::Init()
 				    break;
 				case '<':
 					strcpy(text,"[ ] L"); //Left
-				    text[1] = kCustom[0];
-				    b->Text(text);
+			    	text[1] = AllocateText(kCustom[0]);
+					b->Text(text);
 				    break;
 				case '>':
 					strcpy(text,"[ ] R"); //Right
-				    text[1] = kCustom[1];
+				    text[1] = AllocateText(kCustom[1]);
 				    b->Text(text);
 				    break;
 				case '^':
 					strcpy(text,"[ ] U"); //Up
-				    text[1] = kCustom[2];
+				    text[1] = AllocateText(kCustom[2]);
 				    b->Text(text);
 				    break;
 				case 'v':
 					strcpy(text,"[ ] D"); // Down
-				    text[1] = kCustom[3];
+				    text[1] = AllocateText(kCustom[3]);
 				    b->Text(text);
 				    break;
 				case 'B':
 					strcpy(text,"[ ] B");
-				    text[1] = kCustom[4];
+				    text[1] = AllocateText(kCustom[4]);
 				    b->Text(text);
 				    break;
 				case 'A':
 					strcpy(text,"[ ] A");
-				    text[1] = kCustom[5];
+				    text[1] = AllocateText(kCustom[5]);
 				    b->Text(text);
 				    break;
 				case 'Y':
 					strcpy(text,"[ ] Y");
-				    text[1] = kCustom[6];
+				    text[1] = AllocateText(kCustom[6]);
 				    b->Text(text);
 				    break;
 				case 'Z':
 					strcpy(text,"[ ] X");
-				    text[1] = kCustom[7];
+				    text[1] = AllocateText(kCustom[7]);
 				    b->Text(text);
 				    break;
 				case 'L':
 					strcpy(text,"[ ] L");
-				    text[1] = kCustom[8];
+				    text[1] = AllocateText(kCustom[8]);
 				    b->Text(text);
 				    break;
 				case 'R':
 					strcpy(text,"[ ] R");
-				    text[1] = kCustom[9];
+				    text[1] = AllocateText(kCustom[9]);
 				    b->Text(text);
 				    break;
 				default:

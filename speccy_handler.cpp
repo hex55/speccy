@@ -261,16 +261,56 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 	{
 		switch(key)
 		{
-		case 'l' : key = kCustom[0]; break; /* Left button */
-		case 'r' : key = kCustom[1]; break; /* Right button */
-		case 'u' : key = kCustom[2]; break; /* Up button */
-		case 'd' : key = kCustom[3]; break; /* Down button */
-		case 'f' : key = kCustom[4]; break; /* B button */
-		case 'e' : key = kCustom[5]; break; /* A button */
-		case '1' : key = kCustom[6]; break; /* Y button */
-		case '2' : key = kCustom[7]; break; /* X button */
-		case '3' : key = kCustom[8]; break; /* L button */
-		case '4' : key = kCustom[9]; break; /* R button */
+		case 'l' : 
+			key = kCustom[0];
+			shift = kCustom[0] == 'c' ? down : false;
+			alt = kCustom[0] == 's' ? down : false;
+		  	break; /* Left button */
+		case 'r' : 
+			key = kCustom[1];
+			shift = kCustom[1] == 'c' ? down : false;
+			alt = kCustom[1] == 's' ? down : false;
+			break; /* Right button */
+		case 'u' : 
+			key = kCustom[2];
+			shift = kCustom[2] == 'c' ? down : false;
+			alt = kCustom[2] == 's' ? down : false;
+			break; /* Up button */
+		case 'd' : 
+			key = kCustom[3];
+			shift = kCustom[3] == 'c' ? down : false;
+			alt = kCustom[3] == 's' ? down : false;
+			break; /* Down button */
+		case 'f' : 
+			key = kCustom[4];
+			shift = kCustom[4] == 'c' ? down : false;
+			alt = kCustom[4] == 's' ? down : false;
+			break; /* B button */
+		case 'e' : 
+			key = kCustom[5];
+			shift = kCustom[5] == 'c' ? down : false;
+			alt = kCustom[5] == 's' ? down : false;
+			break; /* A button */
+		case '1' : 
+			key = kCustom[6];
+			shift = kCustom[6] == 'c' ? down : false;
+			alt = kCustom[6] == 's' ? down : false;
+			break; /* Y button */
+		case '2' : 
+			key = kCustom[7];			
+			shift = kCustom[7] == 'c' ? down : false;
+			alt = kCustom[7] == 's' ? down : false;
+			break; /* X button */
+		case '3' : 
+			key = kCustom[8];
+			shift = kCustom[8] == 'c' ? down : false;
+			alt = kCustom[8] == 's' ? down : false;
+			break; /* L button */
+		case '4' : 
+			key = kCustom[9];
+			shift = kCustom[2] == 'c' ? down : false;
+			alt = kCustom[2] == 's' ? down : false;
+			break; /* R button */
 		}
 	}
 	#endif

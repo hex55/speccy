@@ -94,6 +94,7 @@ bool eKeyboard::OnKey(char key, dword _flags)
 	using namespace xPlatform;
 	if((_flags&KF_SHIFT) != (flags&KF_SHIFT))
 		((eButton*)childs[30])->Push(_flags&KF_SHIFT);
+
 	if((_flags&KF_ALT) != (flags&KF_ALT))
 		((eButton*)childs[38])->Push(_flags&KF_ALT);
 	flags = _flags;
@@ -107,8 +108,16 @@ void eKeyboard::OnNotify(byte n, byte from)
 	bool pushed = n == eButton::N_PUSH;
 	switch(from)
 	{
-	case 'c': caps = pushed;	break;
-	case 's': symbol = pushed;	break;
+	case 'c': 
+		key = from;
+		pressed = pushed;
+		caps = pushed;	
+		break;
+	case 's': 
+		key = from;
+		pressed = pushed;
+		symbol = pushed;	
+		break;
 	default:
 		key = from;
 		pressed = pushed;
