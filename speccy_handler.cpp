@@ -279,67 +279,20 @@ void eSpeccyHandler::OnKey(char key, dword flags)
 	{
 		switch(key)
 		{
-		case 'l' : 
-			key = kCustom[0];
-			ProccessCapsSymbol(kCustom[0], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* Left button */
-		case 'r' : 
-			key = kCustom[1];
-			ProccessCapsSymbol(kCustom[1], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* Right button */
-		case 'u' : 
-			key = kCustom[2];
-			ProccessCapsSymbol(kCustom[2], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* Up button */
-		case 'd' : 
-			key = kCustom[3];
-			ProccessCapsSymbol(kCustom[3], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* Down button */
-		case 'f' : 
-			key = kCustom[4];
-			ProccessCapsSymbol(kCustom[4], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* B button */
-		case 'e' : 
-			key = kCustom[5];
-			ProccessCapsSymbol(kCustom[5], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* A button */
-		case '1' : 
-			key = kCustom[6];
-			ProccessCapsSymbol(kCustom[6], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* Y button */
-		case '2' : 
-			key = kCustom[7];
-			ProccessCapsSymbol(kCustom[7], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* X button */
-		case '3' : 
-			key = kCustom[8];
-			ProccessCapsSymbol(kCustom[8], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* L button */
-		case '4' : 
-			key = kCustom[9];
-			ProccessCapsSymbol(kCustom[9], down);
-			shift = shiftCont;
-			alt = altCont;
-			break; /* R button */
+			case 'l' : key = kCustom[0]; break; /* Left button */
+			case 'r' : key = kCustom[1]; break; /* Right button */
+			case 'u' : key = kCustom[2]; break; /* Up button */
+			case 'd' : key = kCustom[3]; break; /* Down button */
+			case 'f' : key = kCustom[4]; break; /* B button */
+			case 'e' : key = kCustom[5]; break; /* A button */
+			case '1' : key = kCustom[6]; break; /* Y button */
+			case '2' : key = kCustom[7]; break; /* X button */
+			case '3' : key = kCustom[8]; break; /* L button */
+			case '4' : key = kCustom[9]; break; /* R button */
 		}
+		ProccessCapsSymbol(key, down);
+		shift = shiftCont;
+		alt = altCont;
 	}
 	#endif
 	speccy->Device<eKeyboard>()->OnKey(key, down, shift, ctrl, alt);

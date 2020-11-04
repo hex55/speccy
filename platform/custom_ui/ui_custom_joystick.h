@@ -35,7 +35,7 @@ public:
 	virtual void Init();
 protected:
 	virtual void OnNotify(byte n, byte from);
-	byte AllocateText(char key) const;
+	byte AllocateText(char key, bool first) const;
 	char text[9];
 };
 

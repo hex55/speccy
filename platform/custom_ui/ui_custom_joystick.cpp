@@ -35,12 +35,21 @@ static const char* joy_buttons[] =
 //=============================================================================
 //	eCJPad::AllocateText
 //-----------------------------------------------------------------------------
-byte eCJPad::AllocateText(char key) const
+byte eCJPad::AllocateText(char key, bool first) const
 {
-	if (key == 's') return '$';
-	if (key == 'c') return '#';
-	if (key == 'e') return '=';
-	return key;
+	if (!first)
+	{
+		if (key == 's' || key == 'c') return 'S';
+		if (key == 'e') return 'N';
+		if (key == ' ') return 'p';
+		return key;
+	} 
+	else 
+	{
+		if (key == 's' || key == 'c' || key == 'e') return key;
+		if (key == ' ') return 'S';
+		return ' ';
+	}
 }
 
 //=============================================================================
@@ -63,7 +72,7 @@ void eCJPad::Init()
 
 	eRect r_item(ePoint(FontSize().x * 5, FontSize().y));	
 	ePoint delta;
-	delta.x = FontSize().x * 4 + margin.x;
+	delta.x = FontSize().x * 5 + margin.x;
 	delta.y = FontSize().y + margin.y;
 	r_item.Move(margin);
 	
@@ -73,6 +82,7 @@ void eCJPad::Init()
 		for(int row = 0; row < 5; ++row)
 		{
 			const char* s = joy_buttons[col * 5 + row];
+			char key = '*';
 		    // char kCustom[8] = {'O','P','Q','A','M',' ','1','2','3','4'};
 		    // {<, >, ^, v, B, A, Y, X, L, R)}*/
 			if(*s != ' ')
@@ -82,64 +92,26 @@ void eCJPad::Init()
 				b->Id((byte)*s);
 				switch(*s)
 				{
-				case 'X':
-				    strcpy(text,"EXIT");
-				    b->Text(text);
-				    break;
-				case '<':
-					strcpy(text,"L:  "); //Left
-			    	text[3] = AllocateText(kCustom[0]);
-					b->Text(text);
-				    break;
-				case '>':
-					strcpy(text,"R:  "); //Right
-				    text[3] = AllocateText(kCustom[1]);
-				    b->Text(text);
-				    break;
-				case '^':
-					strcpy(text,"U:  "); //Up
-				    text[3] = AllocateText(kCustom[2]);
-				    b->Text(text);
-				    break;
-				case 'v':
-					strcpy(text,"D:  "); // Down
-				    text[3] = AllocateText(kCustom[3]);
-				    b->Text(text);
-				    break;
-				case 'B':
-					strcpy(text,"B:  ");
-				    text[3] = AllocateText(kCustom[4]);
-				    b->Text(text);
-				    break;
-				case 'A':
-					strcpy(text,"A:  ");
-				    text[3] = AllocateText(kCustom[5]);
-				    b->Text(text);
-				    break;
-				case 'Y':
-					strcpy(text,"Y:  ");
-				    text[3] = AllocateText(kCustom[6]);
-				    b->Text(text);
-				    break;
-				case 'Z':
-					strcpy(text,"X:  ");
-				    text[3] = AllocateText(kCustom[7]);
-				    b->Text(text);
-				    break;
-				case 'L':
-					strcpy(text,"L:  ");
-				    text[3] = AllocateText(kCustom[8]);
-				    b->Text(text);
-				    break;
-				case 'R':
-					strcpy(text,"R:  ");
-				    text[3] = AllocateText(kCustom[9]);
-				    b->Text(text);
-					break;
-				default:
-					b->Text(s);
-					break;
+					case 'X': strcpy(text,"EXIT"); break;
+					case '<': strcpy(text,"L:  "); key = kCustom[0]; break; // Left
+					case '>': strcpy(text,"R:  "); key = kCustom[1]; break; // Right
+					case '^': strcpy(text,"U:  "); key = kCustom[2]; break; // Up
+					case 'v': strcpy(text,"D:  "); key = kCustom[3]; break; // Down
+					case 'B': strcpy(text,"B:  "); key = kCustom[4]; break; // B
+					case 'A': strcpy(text,"A:  "); key = kCustom[5]; break; // A
+					case 'Y': strcpy(text,"Y:  "); key = kCustom[6]; break; // Y
+					case 'Z': strcpy(text,"X:  "); key = kCustom[7]; break; // X
+					case 'L': strcpy(text,"L:  "); key = kCustom[8]; break; // L
+					case 'R': strcpy(text,"R:  "); key = kCustom[9]; break; // R
+					default: strcpy(text," "); break;
 				}
+
+				if (key != '*') 
+				{
+			    	text[2] = AllocateText(key, true);
+			    	text[3] = AllocateText(key, false);
+			    }
+			    b->Text(text);
 				Insert(b);
 			}
 			r.Move(ePoint(delta.x, 0));
