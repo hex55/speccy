@@ -63,7 +63,7 @@ void eCJPad::Init()
 
 	eRect r_item(ePoint(FontSize().x * 5, FontSize().y));	
 	ePoint delta;
-	delta.x = FontSize().x * 5 + margin.x;
+	delta.x = FontSize().x * 4 + margin.x;
 	delta.y = FontSize().y + margin.y;
 	r_item.Move(margin);
 	
@@ -87,55 +87,55 @@ void eCJPad::Init()
 				    b->Text(text);
 				    break;
 				case '<':
-					strcpy(text,"[ ] L"); //Left
-			    	text[1] = AllocateText(kCustom[0]);
+					strcpy(text,"L:  "); //Left
+			    	text[3] = AllocateText(kCustom[0]);
 					b->Text(text);
 				    break;
 				case '>':
-					strcpy(text,"[ ] R"); //Right
-				    text[1] = AllocateText(kCustom[1]);
+					strcpy(text,"R:  "); //Right
+				    text[3] = AllocateText(kCustom[1]);
 				    b->Text(text);
 				    break;
 				case '^':
-					strcpy(text,"[ ] U"); //Up
-				    text[1] = AllocateText(kCustom[2]);
+					strcpy(text,"U:  "); //Up
+				    text[3] = AllocateText(kCustom[2]);
 				    b->Text(text);
 				    break;
 				case 'v':
-					strcpy(text,"[ ] D"); // Down
-				    text[1] = AllocateText(kCustom[3]);
+					strcpy(text,"D:  "); // Down
+				    text[3] = AllocateText(kCustom[3]);
 				    b->Text(text);
 				    break;
 				case 'B':
-					strcpy(text,"[ ] B");
-				    text[1] = AllocateText(kCustom[4]);
+					strcpy(text,"B:  ");
+				    text[3] = AllocateText(kCustom[4]);
 				    b->Text(text);
 				    break;
 				case 'A':
-					strcpy(text,"[ ] A");
-				    text[1] = AllocateText(kCustom[5]);
+					strcpy(text,"A:  ");
+				    text[3] = AllocateText(kCustom[5]);
 				    b->Text(text);
 				    break;
 				case 'Y':
-					strcpy(text,"[ ] Y");
-				    text[1] = AllocateText(kCustom[6]);
+					strcpy(text,"Y:  ");
+				    text[3] = AllocateText(kCustom[6]);
 				    b->Text(text);
 				    break;
 				case 'Z':
-					strcpy(text,"[ ] X");
-				    text[1] = AllocateText(kCustom[7]);
+					strcpy(text,"X:  ");
+				    text[3] = AllocateText(kCustom[7]);
 				    b->Text(text);
 				    break;
 				case 'L':
-					strcpy(text,"[ ] L");
-				    text[1] = AllocateText(kCustom[8]);
+					strcpy(text,"L:  ");
+				    text[3] = AllocateText(kCustom[8]);
 				    b->Text(text);
 				    break;
 				case 'R':
-					strcpy(text,"[ ] R");
-				    text[1] = AllocateText(kCustom[9]);
+					strcpy(text,"R:  ");
+				    text[3] = AllocateText(kCustom[9]);
 				    b->Text(text);
-				    break;
+					break;
 				default:
 					b->Text(s);
 					break;

@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int gcw_fullscreen = 0;
 
 #ifdef CUSTOM_JOYSTICK
-char kCustom[10] = {'O','P','Q','A','M',' ','9','8','7','6'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
+char kCustom[10] = {'O','P','Q','A','M',' ','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
 bool shiftCont = false;
 bool altCont = false;
 #endif
