@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_keyboard.h"
 #include "../../ui/ui_button.h"
 
+#include "../../tools/options.h"
+
 #include "../../speccy.h"
 
 namespace xUi
@@ -143,7 +145,17 @@ void eCustomJoystickDialog::Update()
 		Clear();
 	}
 	if(quitCustom)
-	{
+	{			
+		using namespace xOptions;
+		#ifdef V90
+		eOptionB* o = eOptionB::Find("pause (R2)");
+		#else
+		eOptionB* o = eOptionB::Find("pause");			
+		#endif
+		if (o->Values() != 0) //static const char* values[] = { "off", "on", NULL };
+		{
+			xPlatform::Handler()->VideoPaused(false);
+		}
 		Clear();
 		return;
 	}

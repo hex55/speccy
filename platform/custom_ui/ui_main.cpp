@@ -33,6 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef USE_UI
 
+
+	bool showMenu = false;
+
 namespace xUi
 {
 
@@ -109,21 +112,42 @@ bool eMainDialog::OnKey(char key, dword flags)
 	switch(key)
 	{
 	case 'k':
-		Clear();
-		if (!f || id != D_KEYS)
+		if ((!f || id != D_KEYS) && (!showMenu))
 		{
+			Clear();
 			eKeyboard* d = new eKeyboard;
 			d->Id(D_KEYS);
 			Insert(d);
+		}
+		else if (!showMenu)
+		{
+			Clear();
 		}
 		return true;
 	case 'm':
 		Clear();
 		if (!f || id != D_MENU)
 		{	
+			showMenu = true;
 			eMenu* d = new eMenu;
 			d->Id(D_MENU);
 			Insert(d);
+			using namespace xOptions;
+			xPlatform::Handler()->VideoPaused(true);
+		}
+		else
+		{
+			showMenu = false;
+			using namespace xOptions;
+			#ifdef V90
+			eOptionB* o = eOptionB::Find("pause (R2)");
+			#else
+			eOptionB* o = eOptionB::Find("pause");			
+			#endif
+			if (o->Values() != 0) //static const char* values[] = { "off", "on", NULL };
+			{
+				xPlatform::Handler()->VideoPaused(false);
+			}
 		}
 		return true;
 #ifdef USE_PROFILER
