@@ -96,6 +96,7 @@ void eMainDialog::Update()
 	{
 		custom_joy.on = false;
 		Clear();
+		showMenu = false;
 		eDialog* d = new eCustomJoystickDialog(kCustom);
 		d->Id(D_CUSTOM_JOY);
 		Insert(d);
