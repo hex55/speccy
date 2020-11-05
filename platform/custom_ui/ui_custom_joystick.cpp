@@ -21,8 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../ui/ui_button.h"
 
 #include "../../tools/options.h"
+#include "../../options_common.h"
 
 #include "../../speccy.h"
+#include "../io.h"
 
 namespace xUi
 {
@@ -33,6 +35,23 @@ static const char* joy_buttons[] =
 	"<", " ", ">", "Y", "Z",
 	" ", "v", " ", "B", "A"
 };
+
+static char* ConfigName(const char* nameSource) 
+{
+	static char name[xIo::MAX_PATH_LEN];
+	strcpy(name, nameSource);
+	int l = strlen(name);
+	if(!l || name[l - 1] == '/' || name[l - 1] == '\\')
+		return NULL;
+	char* e = name + l;
+	while(e > name && *e != '.' && *e != '\\' && *e != '/')
+		--e;
+	if(*e != '.')
+		return NULL;
+	*e = '\0';
+	strcat(name, ".xml");
+	return name;
+}
 
 //=============================================================================
 //	eCJPad::AllocateText
@@ -156,7 +175,10 @@ void eCustomJoystickDialog::Update()
 		{
 			xPlatform::Handler()->VideoPaused(false);
 		}
-		StoreConfig(); //Save custom joystick
+
+		const char* name = xPlatform::OpLastFile();
+		char* rawname = ConfigName(name);		
+		StoreConfig(rawname); //Save custom joystick
 		Clear();
 		return;
 	}

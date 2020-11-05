@@ -161,8 +161,6 @@ static void Apply()
 #ifdef USE_CONFIG
 static const char* FileName() { return xIo::ProfilePath("unreal_speccy_portable.xml"); }
 
-static const char* FileNameConfig() { return xIo::ProfilePath("config.xml"); }
-
 static char buf[256];
 static const char* OptNameToXmlName(const char* name)
 {
@@ -231,11 +229,11 @@ void Load()
 	Apply();
 }
 
-void LoadConfig()
+void LoadConfig(char* file)
 {
 	using namespace tinyxml2;
 	XMLDocument doc;
-	if(doc.LoadFile(FileNameConfig()) == XML_SUCCESS) //TODO change filename
+	if(doc.LoadFile(file) == XML_SUCCESS) //TODO change filename
 	{
 		XMLElement* root = doc.RootElement();
 		if(root)
@@ -276,7 +274,7 @@ void Store()
 	doc.SaveFile(FileName());
 }
 
-void StoreConfig()
+void StoreConfig(char* file)
 {
 	using namespace tinyxml2;
 	XMLDocument doc;
@@ -297,7 +295,7 @@ void StoreConfig()
 		msg->LinkEndChild(doc.NewText( CharToString(kCustom[i]) ) );
 		opts->LinkEndChild(msg);
 	}
-	doc.SaveFile(FileNameConfig());
+	doc.SaveFile(file);
 }
 
 #else//USE_CONFIG

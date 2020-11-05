@@ -43,6 +43,24 @@ int gcw_fullscreen = 0;
 char kCustom[10] = {'O','P','Q','A','M',' ','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
 bool shiftCont = false;
 bool altCont = false;
+
+static char* ConfigName(const char* nameSource) 
+{
+	static char name[xIo::MAX_PATH_LEN];
+	strcpy(name, nameSource);
+	int l = strlen(name);
+	if(!l || name[l - 1] == '/' || name[l - 1] == '\\')
+		return NULL;
+	char* e = name + l;
+	while(e > name && *e != '.' && *e != '\\' && *e != '/')
+		--e;
+	if(*e != '.')
+		return NULL;
+	*e = '\0';
+	strcat(name, ".xml");
+	return name;
+}
+
 #endif
 
 namespace xPlatform
@@ -144,7 +162,6 @@ void eSpeccyHandler::OnInit()
 	sound_dev[1] = speccy->Device<eAY>();
 	sound_dev[2] = speccy->Device<eTape>();
 	xOptions::Load();
-	xOptions::LoadConfig();
 	OnAction(A_RESET);
 }
 void eSpeccyHandler::OnDone()
@@ -337,6 +354,11 @@ bool eSpeccyHandler::OpenFile(const char* name, const void* data, size_t data_si
 	}
 	bool ok = t->Open(buf, size);
 	delete[] buf;
+
+	const char* nameSave = xPlatform::OpLastFile();
+	char* rawnameSave = ConfigName(nameSave);
+	xOptions::LoadConfig(rawnameSave); //Load custom joystick
+
 	return ok;
 }
 bool eSpeccyHandler::OnSaveFile(const char* name)

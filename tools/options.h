@@ -94,9 +94,9 @@ struct eOptionString : public eOption<const char*>
 };
 
 void Load();
-void LoadConfig();
+void LoadConfig(char* file);
 void Store();
-void StoreConfig();
+void StoreConfig(char* file);
 
 }
 //namespace xOptions
