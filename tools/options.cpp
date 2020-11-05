@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "options.h"
 #include "../platform/platform.h"
+#include "../speccy.h"
 
 #ifdef USE_CONFIG
 #include <tinyxml2.h>
@@ -159,6 +160,9 @@ static void Apply()
 
 #ifdef USE_CONFIG
 static const char* FileName() { return xIo::ProfilePath("unreal_speccy_portable.xml"); }
+
+static const char* FileNameConfig() { return xIo::ProfilePath("config.xml"); }
+
 static char buf[256];
 static const char* OptNameToXmlName(const char* name)
 {
@@ -180,6 +184,26 @@ static const char* XmlNameToOptName(const char* name)
 	}
 	return buf;
 }
+
+static const char StringToChar(const char* nameXml)
+{
+	if (strcmp(nameXml, "Cs") == 0) return 'c';
+	if (strcmp(nameXml, "Ss") == 0) return 's';
+	if (strcmp(nameXml, "Sp") == 0) return ' ';
+	if (strcmp(nameXml, "En") == 0) return 'e';
+	return *nameXml;
+}
+
+static const char* CharToString(const char name)
+{
+	if (name == 'c') return "Cs";
+	if (name == 's') return "Ss";
+	if (name == ' ') return "Sp";
+	if (name == 'e') return "En";	
+	const char* result = &name;
+	return result;
+}
+
 //=============================================================================
 //	Load
 //-----------------------------------------------------------------------------
@@ -206,6 +230,26 @@ void Load()
 	}
 	Apply();
 }
+
+void LoadConfig()
+{
+	using namespace tinyxml2;
+	XMLDocument doc;
+	if(doc.LoadFile(FileNameConfig()) == XML_SUCCESS) //TODO change filename
+	{
+		XMLElement* root = doc.RootElement();
+		if(root)
+		{
+			XMLElement* opts = root->FirstChildElement("Control_mapping")->FirstChildElement();
+			for(int i = 0; opts; opts = opts->NextSiblingElement())
+			{
+				kCustom[i] = StringToChar(opts->GetText());
+				++i;
+			}
+		}
+	}
+}
+
 //=============================================================================
 //	Store
 //-----------------------------------------------------------------------------
@@ -230,6 +274,30 @@ void Store()
 		opts->LinkEndChild(msg);
 	}
 	doc.SaveFile(FileName());
+}
+
+void StoreConfig()
+{
+	using namespace tinyxml2;
+	XMLDocument doc;
+	XMLDeclaration* decl = doc.NewDeclaration();
+	doc.LinkEndChild(decl);
+	XMLElement* root = doc.NewElement("UnrealSpeccyPortable");
+	doc.LinkEndChild(root);
+	XMLElement* opts = doc.NewElement("Control_mapping");
+	root->LinkEndChild(opts);
+
+
+	const char* joystick[10] = { "Left", "Rigth", "Up", "Down", "B", "A", "X", "Y", "L", "R"};
+
+	for(int i = 0 ; i < 10; i++)
+	{
+		XMLElement* msg;
+		msg = doc.NewElement(joystick[i]);
+		msg->LinkEndChild(doc.NewText( CharToString(kCustom[i]) ) );
+		opts->LinkEndChild(msg);
+	}
+	doc.SaveFile(FileNameConfig());
 }
 
 #else//USE_CONFIG

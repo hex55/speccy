@@ -144,6 +144,7 @@ void eSpeccyHandler::OnInit()
 	sound_dev[1] = speccy->Device<eAY>();
 	sound_dev[2] = speccy->Device<eTape>();
 	xOptions::Load();
+	xOptions::LoadConfig();
 	OnAction(A_RESET);
 }
 void eSpeccyHandler::OnDone()

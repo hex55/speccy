@@ -156,6 +156,7 @@ void eCustomJoystickDialog::Update()
 		{
 			xPlatform::Handler()->VideoPaused(false);
 		}
+		StoreConfig(); //Save custom joystick
 		Clear();
 		return;
 	}
