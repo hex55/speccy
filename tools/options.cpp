@@ -192,12 +192,32 @@ static const char StringToChar(const char* nameXml)
 	return *nameXml;
 }
 
+static const char* zx_keys[] =
+{
+	"1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+	"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P",
+	"A", "S", "D", "F", "G", "H", "J", "K", "L",
+		"Z", "X", "C", "V", "B", "N", "M"
+};
+
+static const char zx_chars[] =
+{
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+	'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+	'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+		'Z', 'X', 'C', 'V', 'B', 'N', 'M'
+};
+
 static const char* CharToString(const char name)
 {
 	if (name == 'c') return "Cs";
 	if (name == 's') return "Ss";
 	if (name == ' ') return "Sp";
-	if (name == 'e') return "En";	
+	if (name == 'e') return "En";
+	for(unsigned int i = 0 ; i < sizeof(zx_keys); i++)
+	{
+		if (name == zx_chars[i]) return zx_keys[i];
+	}
 	const char* result = &name;
 	return result;
 }

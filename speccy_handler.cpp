@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "options_common.h"
 #include "file_type.h"
 #include "snapshot/rzx.h"
-int gcw_fullscreen = 0;
+int gcw_fullscreen = 0; // 0 - Full screen
 
 #ifdef CUSTOM_JOYSTICK
 char kCustom[10] = {'O','P','Q','A','M',' ','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
