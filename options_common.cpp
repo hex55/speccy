@@ -217,6 +217,22 @@ static struct eOptionLastFile : public xOptions::eOptionString
 	virtual const char* Name() const { return "last file"; }
 } op_last_file;
 
+char* ConfigName(const char* nameSource) { 	
+	static char name[xIo::MAX_PATH_LEN];
+	strcpy(name, nameSource);
+	int l = strlen(name);
+	if(!l || name[l - 1] == '/' || name[l - 1] == '\\')
+		return NULL;
+	char* e = name + l;
+	while(e > name && *e != '.' && *e != '\\' && *e != '/')
+		--e;
+	if(*e != '.')
+		return NULL;
+	*e = '\0';
+	strcat(name, ".xml");
+	return name; 
+}
+
 const char* OpLastFile() { return op_last_file; }
 const char* OpLastFolder()
 {

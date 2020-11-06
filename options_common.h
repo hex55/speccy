@@ -37,6 +37,7 @@ enum eDrive { D_FIRST, D_A = D_FIRST, D_B, D_C, D_D, D_LAST };
 const char* OpLastFolder();
 const char* OpLastFile();
 void OpLastFile(const char* path);
+char* ConfigName(const char* nameSource);
 
 bool OpQuit();
 void OpQuit(bool v);
