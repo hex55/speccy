@@ -148,16 +148,6 @@ void eCustomJoystickDialog::Update()
 	if(quitCustom)
 	{			
 		using namespace xOptions;
-		#ifdef V90
-		eOptionB* o = eOptionB::Find("pause (R2)");
-		#else
-		eOptionB* o = eOptionB::Find("pause");			
-		#endif
-		if (o->Values() != 0) //static const char* values[] = { "off", "on", NULL };
-		{
-			xPlatform::Handler()->VideoPaused(false);
-		}
-
 		const char* name = xPlatform::OpLastFile();
 		char* rawname = xPlatform::ConfigName(name);		
 		StoreConfig(rawname); //Save custom joystick
