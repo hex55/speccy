@@ -103,7 +103,7 @@ static struct eOptionPause : public xOptions::eOptionBool
 {
 	eOptionPause() { storeable = false; }
 	#ifdef V90
-	virtual const char*	Name() const { return "pause (R2)"; }
+	virtual const char*	Name() const { return "pause (L + A/B)"; }
 	#else
 	virtual const char* Name() const { return "pause"; }
 	#endif

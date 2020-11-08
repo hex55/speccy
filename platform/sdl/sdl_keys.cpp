@@ -37,7 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace xPlatform
 {
 
-	static bool /*l_shift = false, */r_shift = false,
+	static bool l_shift = false, r_shift = false,
+				pause_shift = false,
 				l2_shift = false, r2_shift = false,
 	 			b_select = false, b_start = false;
 
@@ -189,7 +190,12 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	case SDLK_LSHIFT:	return '2'; /*X BUTTON*/
 	//case SDLK_LALT:		return 'u'; /*A BUTTON*/
 
-	case DINGOO_BUTTON_L:
+	case DINGOO_BUTTON_L:	
+		l_shift = _flags&KF_DOWN;
+        if(pause_shift) 
+        {
+            pause_shift = false;
+		}
     	return '3';
 		break;
 
@@ -208,7 +214,18 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
             eOptionB* o = eOptionB::Find("load state");
             SAFE_CALL(o)->Change();
         }
-        else 
+        else if(!ui_focused && l_shift && !pause_shift)
+        {        	
+            using namespace xOptions;
+			#ifdef V90
+			eOptionB* o = eOptionB::Find("pause (L + A/B)");
+			#else
+			eOptionB* o = eOptionB::Find("pause");			
+			#endif
+            SAFE_CALL(o)->Change();
+            pause_shift = true;
+		}
+		else 
         {
         	return 'f';
 		}
@@ -222,7 +239,18 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
             eOptionB* o = eOptionB::Find("save state");
             SAFE_CALL(o)->Change();
         }
-        else
+        else if(!ui_focused && l_shift && !pause_shift)
+		{
+			using namespace xOptions;
+			#ifdef V90
+			eOptionB* o = eOptionB::Find("pause (L + A/B)");
+			#else
+			eOptionB* o = eOptionB::Find("pause");			
+			#endif
+            SAFE_CALL(o)->Change();
+            pause_shift = true;
+        }
+        else 
         {
         	return 'e';
 		}
