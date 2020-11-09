@@ -266,6 +266,14 @@ void LoadConfig(char* file)
 			}
 		}
 	}
+	else
+	{
+		char kCustomOriginal[10] = {'O','P','Q','A','M',' ','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
+		for(unsigned int i = 0 ; i < sizeof(kCustomOriginal); i++)
+		{
+			kCustom[i] = kCustomOriginal[i];
+		}
+	}
 }
 
 //=============================================================================
