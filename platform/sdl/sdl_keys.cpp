@@ -38,7 +38,7 @@ namespace xPlatform
 {
 
 	static bool l_shift = false, r_shift = false,
-				pause_shift = false,
+				pause_shift = false, fullScreen_shift = false,
 				l2_shift = false, r2_shift = false,
 	 			b_select = false, b_start = false;
 
@@ -196,6 +196,10 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         {
             pause_shift = false;
 		}
+        if(fullScreen_shift) 
+        {
+            fullScreen_shift = false;
+		}
     	return '3';
 		break;
 
@@ -218,7 +222,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         {        	
             using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (L + A/B)");
+			eOptionB* o = eOptionB::Find("pause (R2/L + B)");
 			#else
 			eOptionB* o = eOptionB::Find("pause");			
 			#endif
@@ -239,16 +243,16 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
             eOptionB* o = eOptionB::Find("save state");
             SAFE_CALL(o)->Change();
         }
-        else if(!ui_focused && l_shift && !pause_shift)
+        else if(!ui_focused && l_shift && !fullScreen_shift)
 		{
 			using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (L + A/B)");
+			eOptionB* o = eOptionB::Find("fullscreen (L2/L + A)");
 			#else
-			eOptionB* o = eOptionB::Find("pause");			
+			eOptionB* o = eOptionB::Find("fullscreen");			
 			#endif
-            SAFE_CALL(o)->Change();
-            pause_shift = true;
+			SAFE_CALL(o)->Change();
+            fullScreen_shift = true;
         }
         else 
         {
@@ -264,7 +268,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		{
 			using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (R2)");
+			eOptionB* o = eOptionB::Find("pause (R2/L + B)");
 			#else
 			eOptionB* o = eOptionB::Find("pause");			
 			#endif
@@ -280,11 +284,10 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         {
             using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("fullscreen (L2)");
+			eOptionB* o = eOptionB::Find("fullscreen (L2/L + A)");
 			#else
 			eOptionB* o = eOptionB::Find("fullscreen");			
 			#endif
-
 			SAFE_CALL(o)->Change();
         }
 		break;
