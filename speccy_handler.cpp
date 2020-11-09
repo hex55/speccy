@@ -396,7 +396,7 @@ static struct eOptionResetToServiceRom : public xOptions::eOptionBool
 static struct eOptionFullscreen : public xOptions::eOptionBool
 {
 	#ifdef V90
-	virtual const char* Name() const { return "fullscreen (L2/L + A)"; }
+	virtual const char* Name() const { return "fullscreen (L2 L+A)"; }
 	#else
 	virtual const char*	Name() const { return "fullscreen"; }
 	#endif

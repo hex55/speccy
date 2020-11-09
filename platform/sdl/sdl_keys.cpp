@@ -222,7 +222,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         {        	
             using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (R2/L + B)");
+			eOptionB* o = eOptionB::Find("pause (R2 L+B)");
 			#else
 			eOptionB* o = eOptionB::Find("pause");			
 			#endif
@@ -247,7 +247,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		{
 			using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("fullscreen (L2/L + A)");
+			eOptionB* o = eOptionB::Find("fullscreen (L2 L+A)");
 			#else
 			eOptionB* o = eOptionB::Find("fullscreen");			
 			#endif
@@ -268,7 +268,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		{
 			using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (R2/L + B)");
+			eOptionB* o = eOptionB::Find("pause (R2 L+B)");
 			#else
 			eOptionB* o = eOptionB::Find("pause");			
 			#endif
@@ -284,7 +284,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         {
             using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("fullscreen (L2/L + A)");
+			eOptionB* o = eOptionB::Find("fullscreen (L2 L+A)");
 			#else
 			eOptionB* o = eOptionB::Find("fullscreen");			
 			#endif
