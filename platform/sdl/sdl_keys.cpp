@@ -215,7 +215,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		if(!ui_focused && r_shift)
         {
             using namespace xOptions;
-            eOptionB* o = eOptionB::Find("load state");
+            eOptionB* o = eOptionB::Find("save state");
             SAFE_CALL(o)->Change();
         }
         else if(!ui_focused && l_shift && !pause_shift)
@@ -240,7 +240,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		if(!ui_focused && r_shift)
 		{
             using namespace xOptions;
-            eOptionB* o = eOptionB::Find("save state");
+            eOptionB* o = eOptionB::Find("load state");
             SAFE_CALL(o)->Change();
         }
         else if(!ui_focused && l_shift && !fullScreen_shift)
