@@ -259,10 +259,43 @@ void LoadConfig(char* file)
 		if(root)
 		{
 			XMLElement* opts = root->FirstChildElement("Control_mapping")->FirstChildElement();
-			for(int i = 0; opts; opts = opts->NextSiblingElement())
+			if(opts)
 			{
-				kCustom[i] = StringToChar(opts->GetText());
-				++i;
+				for(int i = 0; opts; opts = opts->NextSiblingElement())
+				{
+					kCustom[i] = StringToChar(opts->GetText());
+					++i;
+				}
+			}
+
+			//Load fullscreen
+			XMLElement* fullscreen = root->FirstChildElement("Fullscreen");
+			const char n = 'n';
+			const char nMayus = 'N';
+			if (fullscreen)
+			{
+				#ifdef V90
+				eOptionB* oScreen = eOptionB::Find("fullscreen (L2 L+A)");
+				#else
+				eOptionB* oScreen = eOptionB::Find("fullscreen");			
+				#endif
+
+				const char* v = fullscreen->GetText();
+				if(v[1] == n || v[1] == nMayus)
+				{
+					SAFE_CALL(oScreen)->Change();
+				}
+				oScreen->Value(v ? v : "");
+			}
+
+			//Load joystick
+			XMLElement* joystick = root->FirstChildElement("Joystick");
+			//static const char* values[] = { "kempston", "cursor", "qaop", "sinclair2", "custom", NULL };
+			if (joystick)
+			{
+				eOptionB* o = eOptionB::Find("joystick");
+				const char* v = joystick->GetText();
+				o->Value(v ? v : "");
 			}
 		}
 	}
@@ -323,6 +356,24 @@ void StoreConfig(char* file)
 		msg->LinkEndChild(doc.NewText( CharToString(kCustom[i]) ) );
 		opts->LinkEndChild(msg);
 	}
+
+	//save fullscreen
+	XMLElement* fullScreen;
+	fullScreen = doc.NewElement("Fullscreen");
+	#ifdef V90
+	eOptionB* oScreen = eOptionB::Find("fullscreen (L2 L+A)");
+	#else
+	eOptionB* oScreen = eOptionB::Find("fullscreen");			
+	#endif
+	fullScreen->LinkEndChild(doc.NewText( oScreen->Value() ) );
+	root->LinkEndChild(fullScreen);
+	
+	//save joystick type
+	XMLElement* joystickSave = doc.NewElement("Joystick");
+	eOptionB* o = eOptionB::Find("joystick");
+	joystickSave->LinkEndChild(doc.NewText( o->Value() ) );
+	root->LinkEndChild(joystickSave);	
+
 	doc.SaveFile(file);
 }
 

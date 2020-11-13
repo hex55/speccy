@@ -58,6 +58,12 @@ static struct eOptionSaveState : public eOptionState
 			Set(Handler()->OnSaveFile(name));
 		else
 			Set(false);
+
+		using namespace xOptions;
+		const char* nameConfig = xPlatform::OpLastFile();
+		char* rawname = xPlatform::ConfigName(nameConfig);
+		StoreConfig(rawname); //Save custom joystick
+		
 	}
 	virtual int Order() const { return 1; }
 } op_save_state;
@@ -76,6 +82,21 @@ static struct eOptionLoadState : public eOptionState
 	}
 	virtual int Order() const { return 2; }
 } op_load_state;
+
+
+static struct eOptionSaveConfigGame : public eOptionState
+{
+	virtual const char* Name() const { return "save config game"; }
+	virtual const char*	Value() const { return "(L + Y)"; }
+	virtual void Change(bool next = true)
+	{
+		using namespace xOptions;
+		const char* name = xPlatform::OpLastFile();
+		char* rawname = xPlatform::ConfigName(name);		
+		StoreConfig(rawname); //Save custom joystick
+	}
+	virtual int Order() const { return 15; }
+} op_save_config;
 
 static struct eOptionTape : public xOptions::eOptionInt
 {
@@ -158,9 +179,9 @@ static struct eOptionJoy : public xOptions::eOptionInt
 {
 
 	#ifdef CUSTOM_JOYSTICK
-	eOptionJoy() { Set(J_KCUSTOM); }		
+	eOptionJoy() { storeable = false; Set(J_KCUSTOM); }		
 	#else
-	eOptionJoy() { Set(J_FIRST); }		
+	eOptionJoy() { storeable = false; Set(J_FIRST); }		
 	#endif
 	virtual const char* Name() const { return "joystick"; }
 	virtual const char** Values() const
@@ -210,6 +231,15 @@ static struct eOptionQuit : public xOptions::eOptionBool
 	virtual int Order() const { return 100; }
 	virtual const char** Values() const { return NULL; }
 } op_quit;
+
+static struct eOptionInfoDate : public xOptions::eOptionBool
+{
+	eOptionInfoDate() { storeable = false; }
+	virtual const char* Name() const { return __DATE__; }
+	virtual const char* Value() const { return __TIME__; }
+	virtual int Order() const { return 110; }
+	virtual const char** Values() const { return NULL; }
+} op_infodate;
 
 static struct eOptionLastFile : public xOptions::eOptionString
 {

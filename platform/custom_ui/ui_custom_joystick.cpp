@@ -146,7 +146,7 @@ void eCustomJoystickDialog::Update()
 		Clear();
 	}
 	if(quitCustom)
-	{			
+	{
 		using namespace xOptions;
 		const char* name = xPlatform::OpLastFile();
 		char* rawname = xPlatform::ConfigName(name);		

@@ -39,6 +39,7 @@ namespace xPlatform
 
 	static bool l_shift = false, r_shift = false,
 				pause_shift = false, fullScreen_shift = false,
+				saveConfig_shift = false,
 				l2_shift = false, r2_shift = false,
 	 			b_select = false, b_start = false;
 
@@ -185,7 +186,19 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	case SDLK_LEFT:		return 'l'; /* Left button */
 	case SDLK_RIGHT:	return 'r'; /* Right button */
 #ifdef SDL_POCKETGO_KEYS
-	case SDLK_SPACE:    return '1'; /*Y BUTTON*/
+	case SDLK_SPACE:	/* Y BUTTON */
+	    if(!ui_focused && l_shift && !saveConfig_shift)
+        {        	
+            using namespace xOptions;
+			eOptionB* o = eOptionB::Find("save config game");
+            SAFE_CALL(o)->Change();
+            saveConfig_shift = true;
+		}
+		else 
+        {
+        	return '1';
+		}
+		break;
 	//case SDLK_LCTRL:	return 'f'; /*B BUTTON*/
 	case SDLK_LSHIFT:	return '2'; /*X BUTTON*/
 	//case SDLK_LALT:		return 'u'; /*A BUTTON*/
