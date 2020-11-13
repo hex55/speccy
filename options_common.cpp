@@ -234,7 +234,12 @@ static struct eOptionQuit : public xOptions::eOptionBool
 
 static struct eOptionInfoDate : public xOptions::eOptionBool
 {
+	#ifdef RELEASE
+	eOptionInfoDate() { customizable = false; storeable = false; }
+	#else
 	eOptionInfoDate() { storeable = false; }
+	#endif
+	
 	virtual const char* Name() const { return __DATE__; }
 	virtual const char* Value() const { return __TIME__; }
 	virtual int Order() const { return 110; }
