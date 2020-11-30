@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "file_type.h"
 #include "snapshot/rzx.h"
 int gcw_fullscreen = 1; // 0 - Full screen
+int gcw_border_custom = 0;
 
 #ifdef CUSTOM_JOYSTICK
 char kCustom[10] = {'O','P','Q','A','M',' ','1','2','0','3'}; /* {<, >, ^, v, B, A, Y, X, L, R} */
@@ -379,7 +380,7 @@ static struct eOption48K : public xOptions::eOptionBool
 	{
 		sh.OnAction(A_RESET);
 	}
-	virtual int Order() const { return 65; }
+	virtual int Order() const { return 17; }
 } op_48k;
 
 static struct eOptionResetToServiceRom : public xOptions::eOptionBool
@@ -419,6 +420,29 @@ static struct eOptionFullscreen : public xOptions::eOptionBool
 	virtual int Order() const { return 14; }
 } op_fullscreen;
 #endif
+
+static struct eOptionBorderCustom : public xOptions::eOptionInt
+{
+	eOptionBorderCustom() { Set(BC_FULL); storeable = false; }
+	enum eMode { BC_FIRST, BC_FULL = BC_FIRST, BC_MEDIUM, BC_SMALL, BC_MINIUM, BC_LAST };
+	virtual const char* Name() const { return "border (L2 L+X)"; }
+	virtual const char** Values() const
+	{
+		static const char* values[] = { "Full", "Medium", "Small", "Minium", NULL };
+		return values;
+	}
+	virtual void Change(bool next = true)
+	{
+		eOptionInt::Change(BC_FIRST, BC_LAST, next);
+		Apply();
+	}
+	virtual void Apply()
+	{
+		gcw_border_custom = value;
+	}
+	virtual int Order() const { return 15; }
+}op_border_custom;
+
 
 eActionResult eSpeccyHandler::OnAction(eAction action)
 {

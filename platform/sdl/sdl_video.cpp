@@ -36,6 +36,9 @@ namespace xPlatform
 static SDL_Surface* screen = NULL;
 static SDL_Surface* offscreen = NULL;
 
+static int border_width_custom ;
+static int border_height_custom;
+
 static struct eCachedColors
 {
 	inline dword RGBX(byte r, byte g, byte b) const { return (b << 16)|(g << 8)|r; }
@@ -90,6 +93,19 @@ void DoneVideo()
 		SDL_FreeSurface(screen);
 	}
 }
+
+void ZoomScreen(int border_width, int border_height)
+{
+	SDL_Rect dst;
+	dst.x = border_width;
+	dst.y = border_height;
+	dst.w = SCREEN_WIDTH - 2 * dst.x;
+	dst.h = SCREEN_HEIGHT - 2 * dst.y;
+
+	SDL_Rect src = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	SDL_SoftStretch(offscreen, &dst, screen, &src);
+
+} 
 
 void UpdateScreen()
 {
@@ -160,29 +176,58 @@ void UpdateScreen()
 		SDL_UnlockSurface(out);
 	}
 
-#ifdef GCWZERO
-	if (gcw_fullscreen)
+	#ifdef SDL_POCKETGO_KEYS				    
+	if ( gcw_fullscreen )
+	{
+		border_width_custom = 32;
+		border_height_custom = 24;
+		ZoomScreen (border_width_custom, border_height_custom);
+	} 
+	else
+	{
+      	switch (gcw_border_custom)
+      	{
+	        case 0: //full
+				border_width_custom = 0;
+				border_height_custom = 0;
+	            break;
+	        case 1: //medium
+				border_width_custom = 16;
+				border_height_custom = 12;
+	            break;
+	        case 2: //small
+				border_width_custom = 24;
+				border_height_custom = 18;
+	            break;
+			case 3: //minium
+				border_width_custom = 28;
+				border_height_custom = 21;
+	            break;
+      	}
+      	if (border_width_custom != 0) 
+  		{
+  			ZoomScreen (border_width_custom, border_height_custom);
+  		}
+  		else
+  		{
+			SDL_BlitSurface(offscreen, NULL, screen, NULL);
+  		}
+	}
+	#else
+  	if (gcw_fullscreen) 
 	{
 		SDL_Rect dst;
 		dst.x = BORDER_WIDTH;
 		dst.y = BORDER_HEIGHT;
 		dst.w = SCREEN_WIDTH - 2 * dst.x;
 		dst.h = SCREEN_HEIGHT - 2 * dst.y;
-		
-		#ifdef SDL_POCKETGO_KEYS
-		SDL_Rect src = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-    	SDL_SoftStretch(offscreen, &dst, screen, &src);
-    	#else
 		SDL_BlitSurface(offscreen, &dst, screen, NULL);
-		#endif	    
 	}
 	else
 	{
 		SDL_BlitSurface(offscreen, NULL, screen, NULL);
 	}
-#else
-	SDL_BlitSurface(offscreen, NULL, screen, NULL);
-#endif
+	#endif
 
 	SDL_Flip(screen);
 }

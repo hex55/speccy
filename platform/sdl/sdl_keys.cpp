@@ -39,6 +39,7 @@ namespace xPlatform
 
 	static bool l_shift = false, r_shift = false,
 				pause_shift = false, fullScreen_shift = false,
+				border_shift = false,
 				saveConfig_shift = false,
 				l2_shift = false, r2_shift = false,
 	 			b_select = false, b_start = false;
@@ -200,7 +201,20 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		}
 		break;
 	//case SDLK_LCTRL:	return 'f'; /*B BUTTON*/
-	case SDLK_LSHIFT:	return '2'; /*X BUTTON*/
+	case SDLK_LSHIFT: /*X BUTTON*/
+		//redefine L + X as change border
+        if(!ui_focused && l_shift && !border_shift)
+		{
+			using namespace xOptions;
+			eOptionB* o = eOptionB::Find("border (L2 L+X)");
+			SAFE_CALL(o)->Change();
+            border_shift = true;
+        }
+        else 
+        {
+        	return '2';
+		}
+		break;
 	//case SDLK_LALT:		return 'u'; /*A BUTTON*/
 
 	case DINGOO_BUTTON_L:	
@@ -212,6 +226,10 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         if(fullScreen_shift) 
         {
             fullScreen_shift = false;
+		}		
+        if(border_shift) 
+        {
+            border_shift = false;
 		}
     	return '3';
 		break;
