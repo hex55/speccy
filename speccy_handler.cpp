@@ -421,29 +421,6 @@ static struct eOptionFullscreen : public xOptions::eOptionBool
 } op_fullscreen;
 #endif
 
-static struct eOptionBorderCustom : public xOptions::eOptionInt
-{
-	eOptionBorderCustom() { Set(BC_FULL); storeable = false; }
-	enum eMode { BC_FIRST, BC_FULL = BC_FIRST, BC_MEDIUM, BC_SMALL, BC_MINIUM, BC_LAST };
-	virtual const char* Name() const { return "border (L2 L+X)"; }
-	virtual const char** Values() const
-	{
-		static const char* values[] = { "Full", "Medium", "Small", "Minium", NULL };
-		return values;
-	}
-	virtual void Change(bool next = true)
-	{
-		eOptionInt::Change(BC_FIRST, BC_LAST, next);
-		Apply();
-	}
-	virtual void Apply()
-	{
-		gcw_border_custom = value;
-	}
-	virtual int Order() const { return 15; }
-}op_border_custom;
-
-
 eActionResult eSpeccyHandler::OnAction(eAction action)
 {
 	switch(action)

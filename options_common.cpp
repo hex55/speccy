@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tools/options.h"
 #include "ui/ui.h"
 #include "options_common.h"
+#include "./speccy.h"
 
 namespace xPlatform
 {
@@ -200,6 +201,27 @@ static struct eOptionJoy : public xOptions::eOptionInt
 	virtual int Order() const { return 10; }
 } op_joy;
 
+static struct eOptionBorderCustom : public xOptions::eOptionInt
+{
+	eOptionBorderCustom() { Set(BC_FULL); storeable = false; }
+	virtual const char* Name() const { return "border (L2 L+X)"; }
+	virtual const char** Values() const
+	{
+		static const char* values[] = { "Full", "Medium", "Small", "Minium", NULL };
+		return values;
+	}
+	virtual void Change(bool next = true)
+	{
+		eOptionInt::Change(BC_FIRST, BC_LAST, next);
+		Apply();
+	}
+	virtual void Apply()
+	{
+		gcw_border_custom = value;
+	}
+	virtual int Order() const { return 15; }
+}op_border_custom;
+
 static struct eOptionDrive : public xOptions::eOptionInt
 {
 	eOptionDrive() { storeable = false; Set(D_A); }
@@ -306,6 +328,10 @@ dword OpJoyKeyFlags()
 	}
 	return KF_QAOP;
 }
+
+eBorder OpBorder() { return (eBorder)(int)op_border_custom; }
+void OpBorder(eBorder v) { op_border_custom.Set(v); }
+
 
 }
 //namespace xPlatform

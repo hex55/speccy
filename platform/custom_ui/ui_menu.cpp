@@ -93,7 +93,21 @@ void eMenu::Init()
 		}
 		else
 		{
-			r_dlg.Move(ePoint(8, 8));
+	      	switch (gcw_border_custom)
+	  		{
+		        case 0: //full
+					r_dlg.Move(ePoint(8, 8));
+		            break;
+		        case 1: //medium
+					r_dlg.Move(ePoint(14, 12));
+		            break;
+		        case 2: //small
+					r_dlg.Move(ePoint(20, 18));
+		            break;
+				case 3: //minium
+					r_dlg.Move(ePoint(24, 22));
+		            break;
+	      	}
 		}
 	#else
 		eRect r_dlg(ePoint(160, 2*margin.y));

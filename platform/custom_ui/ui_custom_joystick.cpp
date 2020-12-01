@@ -68,7 +68,22 @@ void eCJPad::Init()
 		r_dlg.Move(ePoint(32, 24));
 	}
 	else
-	{
+	{		
+      	switch (gcw_border_custom)
+  		{
+	        case 0: //full
+				r_dlg.Move(ePoint(8, 8));
+	            break;
+	        case 1: //medium
+				r_dlg.Move(ePoint(14, 12));
+	            break;
+	        case 2: //small
+				r_dlg.Move(ePoint(20, 18));
+	            break;
+			case 3: //minium
+				r_dlg.Move(ePoint(24, 22));
+	            break;
+      	}
 		r_dlg.Move(ePoint(8, 8));
 	}
 	Bound() = r_dlg;

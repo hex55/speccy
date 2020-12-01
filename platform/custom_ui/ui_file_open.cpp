@@ -59,8 +59,25 @@ void eFileOpenDialog::Init()
 		}
 		else
 		{
-			marginLeft = 8;
-			marginTop = 8;
+	      	switch (gcw_border_custom)
+      		{
+		        case 0: //full
+					marginLeft = 8;
+					marginTop = 8;
+		            break;
+		        case 1: //medium
+					marginLeft = 19;
+					marginTop = 14;
+		            break;
+		        case 2: //small
+					marginLeft = 27;
+					marginTop = 18;
+		            break;
+				case 3: //minium
+					marginLeft = 31;
+					marginTop = 22;
+		            break;
+	      	}
 		}
 	#else
 		marginLeft = 8;

@@ -60,7 +60,21 @@ void eKeyboard::Init()
 	}
 	else
 	{
-		r_dlg.Move(ePoint(143, 8));
+      	switch (gcw_border_custom)
+  		{
+	        case 0: //full
+				r_dlg.Move(ePoint(143, 8));
+	            break;
+	        case 1: //medium
+				r_dlg.Move(ePoint(143-12, 12));
+	            break;
+	        case 2: //small
+				r_dlg.Move(ePoint(143-18, 18));
+	            break;
+			case 3: //minium
+				r_dlg.Move(ePoint(143-22, 22));
+	            break;
+      	}
 	}
 
 	Bound() = r_dlg;

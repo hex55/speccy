@@ -183,6 +183,8 @@ static const char* XmlNameToOptName(const char* name)
 	return buf;
 }
 
+//static const 
+
 static const char StringToChar(const char* nameXml)
 {
 	if (strcmp(nameXml, "Cs") == 0) return 'c';
@@ -288,6 +290,16 @@ void LoadConfig(char* file)
 				oScreen->Value(v ? v : "");
 			}
 
+			//Load border
+			XMLElement* border = root->FirstChildElement("Border");
+			if (border)
+			{
+				eOptionB* oBorder = eOptionB::Find("border (L2 L+X)");
+				const char* v = border->GetText();
+				oBorder->Value(v ? v : "");
+				oBorder->Apply();
+			}
+
 			//Load joystick
 			XMLElement* joystick = root->FirstChildElement("Joystick");
 			//static const char* values[] = { "kempston", "cursor", "qaop", "sinclair2", "custom", NULL };
@@ -367,7 +379,13 @@ void StoreConfig(char* file)
 	#endif
 	fullScreen->LinkEndChild(doc.NewText( oScreen->Value() ) );
 	root->LinkEndChild(fullScreen);
-	
+
+	//save border
+	XMLElement* borderSave = doc.NewElement("Border");
+	eOptionB* oBorder = eOptionB::Find("border (L2 L+X)");
+	borderSave->LinkEndChild(doc.NewText( oBorder->Value() ) );
+	root->LinkEndChild(borderSave);	
+
 	//save joystick type
 	XMLElement* joystickSave = doc.NewElement("Joystick");
 	eOptionB* o = eOptionB::Find("joystick");
