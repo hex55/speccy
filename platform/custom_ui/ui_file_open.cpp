@@ -48,44 +48,15 @@ eFileOpenDialog::eFileOpenDialog(const char* _path) : list(NULL), selected(NULL)
 void eFileOpenDialog::Init()
 {
 	background = COLOR_BACKGROUND;
-	int marginLeft;
-	int marginTop;
+	int marginLeft = 8;
+	int marginTop = 8;
 
 	#ifdef GCWZERO
-	    if(gcw_fullscreen)
-		{
-			marginLeft = 32;
+			marginLeft = 70;
 			marginTop = 24;
-		}
-		else
-		{
-	      	switch (gcw_border_custom)
-      		{
-		        case 0: //full
-					marginLeft = 8;
-					marginTop = 8;
-		            break;
-		        case 1: //medium
-					marginLeft = 19;
-					marginTop = 14;
-		            break;
-		        case 2: //small
-					marginLeft = 27;
-					marginTop = 18;
-		            break;
-				case 3: //minium
-					marginLeft = 31;
-					marginTop = 22;
-		            break;
-	      	}
-		}
-	#else
-		marginLeft = 8;
-		marginTop = 8;
 	#endif
 
-
-	eRect r(marginLeft, marginTop, 120 + 40, 180);
+	eRect r(marginLeft, marginTop, 250, 180);
 	ePoint margin(6, 6);
 
 	Bound() = r;
@@ -205,6 +176,9 @@ void eFileOpenDialog::OnNotify(byte n, byte from)
 	}
 	strcat(path, list->Item());
 	selected = path;
+	//Menu close
+	showMenu = false;
+	xPlatform::Handler()->VideoPaused(false);
 	eInherited::OnNotify(n, id);
 }
 

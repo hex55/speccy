@@ -96,7 +96,7 @@ static struct eOptionSaveConfigGame : public eOptionState
 		char* rawname = xPlatform::ConfigName(name);		
 		StoreConfig(rawname); //Save custom joystick
 	}
-	virtual int Order() const { return 15; }
+	virtual int Order() const { return 16; }
 } op_save_config;
 
 static struct eOptionTape : public xOptions::eOptionInt

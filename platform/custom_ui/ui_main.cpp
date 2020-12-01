@@ -109,22 +109,41 @@ bool eMainDialog::OnKey(char key, dword flags)
 	switch(key)
 	{
 	case 'k':
-		Clear();
-		if (!f || id != D_KEYS)
+		if (showMenu == false) 
 		{
 			Clear();
-			eKeyboard* d = new eKeyboard;
-			d->Id(D_KEYS);
-			Insert(d);
+			showKeyboard = false;
+			if (!f || id != D_KEYS)
+			{
+				showMenu = false;
+				showKeyboard = true;
+				Clear();
+				eKeyboard* d = new eKeyboard;
+				d->Id(D_KEYS);
+				Insert(d);
+			}
 		}
 		return true;
-	case 'm':
-		Clear();
-		if (!f || id != D_MENU)
+	case 'm':		
+		if (showKeyboard == false)
 		{
-			eMenu* d = new eMenu;
-			d->Id(D_MENU);
-			Insert(d);
+			Clear();			
+			if (showMenu)
+			{
+				//Pause emulator
+				xPlatform::Handler()->VideoPaused(false);
+			}
+			showMenu = false;
+			if (!f || id != D_MENU)
+			{
+				showMenu = true;
+				//Pause emulator
+				xPlatform::Handler()->VideoPaused(true);
+				showKeyboard = false;
+				eMenu* d = new eMenu;
+				d->Id(D_MENU);
+				Insert(d);
+			}
 		}
 		return true;
 #ifdef USE_PROFILER

@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef GCWZERO
 extern int gcw_fullscreen;
 extern int gcw_border_custom;
+extern bool showMenu;
+extern bool showKeyboard;
 #endif
 
 #ifdef CUSTOM_JOYSTICK

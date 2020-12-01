@@ -85,33 +85,11 @@ void eMenu::Init()
 	background = COLOR_BACKGROUND;
 	ePoint margin(6, 6);
 
+	eRect r_dlg(ePoint(160, 2*margin.y));
 	#ifdef GCWZERO
-		eRect r_dlg(ePoint(160, 2*margin.y));
-	    if(gcw_fullscreen)
-		{
-			r_dlg.Move(ePoint(32, 24));
-		}
-		else
-		{
-	      	switch (gcw_border_custom)
-	  		{
-		        case 0: //full
-					r_dlg.Move(ePoint(8, 8));
-		            break;
-		        case 1: //medium
-					r_dlg.Move(ePoint(14, 12));
-		            break;
-		        case 2: //small
-					r_dlg.Move(ePoint(20, 18));
-		            break;
-				case 3: //minium
-					r_dlg.Move(ePoint(24, 22));
-		            break;
-	      	}
-		}
+	r_dlg.Move(ePoint(80, 24));
 	#else
-		eRect r_dlg(ePoint(160, 2*margin.y));
-		r_dlg.Move(ePoint(8, 8));
+	r_dlg.Move(ePoint(8, 8));
 	#endif
 
 	eRect r(ePoint(r_dlg.Width() - margin.x * 2, margin.y));

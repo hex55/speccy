@@ -63,29 +63,14 @@ void eCJPad::Init()
 	background = COLOR_BACKGROUND;
 	ePoint margin(6, 6);
 	eRect r_dlg(ePoint((FontSize().x * 5 + margin.x ) * 5 + margin.x, ( FontSize().y + margin.y ) * 3 + margin.y));
-	if(gcw_fullscreen)
-	{
-		r_dlg.Move(ePoint(32, 24));
-	}
-	else
-	{		
-      	switch (gcw_border_custom)
-  		{
-	        case 0: //full
-				r_dlg.Move(ePoint(8, 8));
-	            break;
-	        case 1: //medium
-				r_dlg.Move(ePoint(14, 12));
-	            break;
-	        case 2: //small
-				r_dlg.Move(ePoint(20, 18));
-	            break;
-			case 3: //minium
-				r_dlg.Move(ePoint(24, 22));
-	            break;
-      	}
-		r_dlg.Move(ePoint(8, 8));
-	}
+		
+
+	#ifdef GCWZERO
+	r_dlg.Move(ePoint(70, 24));
+	#else
+	r_dlg.Move(ePoint(8, 8));
+	#endif
+	
 	Bound() = r_dlg;
 
 	eRect r_item(ePoint(FontSize().x * 5, FontSize().y));	
@@ -167,6 +152,9 @@ void eCustomJoystickDialog::Update()
 		char* rawname = xPlatform::ConfigName(name);		
 		StoreConfig(rawname); //Save custom joystick
 		Clear();
+		//Menu close
+		showMenu = false;
+		xPlatform::Handler()->VideoPaused(false);
 		return;
 	}
 	if(keyboard)
