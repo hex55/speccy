@@ -400,7 +400,7 @@ static struct eOptionFullscreen : public xOptions::eOptionBool
 {	
 	eOptionFullscreen() { storeable = false; }
 	#ifdef V90
-	virtual const char* Name() const { return "fullscreen (L2 L+A)"; }
+	virtual const char* Name() const { return "fullscreen (L+A)"; }
 	#else
 	virtual const char*	Name() const { return "fullscreen"; }
 	#endif

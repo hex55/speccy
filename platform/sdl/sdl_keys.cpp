@@ -38,10 +38,11 @@ namespace xPlatform
 {
 
 	static bool l_shift = false, r_shift = false,
-				pause_shift = false, fullScreen_shift = false,
+				//pause_shift = false, 
+				fullScreen_shift = false,
 				border_shift = false,
 				saveConfig_shift = false,
-				l2_shift = false, r2_shift = false,
+				//l2_shift = false, r2_shift = false,
 	 			b_select = false, b_start = false;
 
 static bool ProcessFuncKey(SDL_Event& e)
@@ -202,27 +203,18 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		break;
 	//case SDLK_LCTRL:	return 'f'; /*B BUTTON*/
 	case SDLK_LSHIFT: /*X BUTTON*/
-		//redefine L + X as change border
-        if(!ui_focused && l_shift && !border_shift)
-		{
-			using namespace xOptions;
-			eOptionB* o = eOptionB::Find("border (L2 L+X)");
-			SAFE_CALL(o)->Change();
-            border_shift = true;
-        }
-        else 
-        {
-        	return '2';
-		}
+       	return '2';
 		break;
 	//case SDLK_LALT:		return 'u'; /*A BUTTON*/
 
 	case DINGOO_BUTTON_L:	
 		l_shift = _flags&KF_DOWN;
+		/*
         if(pause_shift) 
         {
             pause_shift = false;
 		}
+		*/
         if(fullScreen_shift) 
         {
             fullScreen_shift = false;
@@ -249,17 +241,14 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
             eOptionB* o = eOptionB::Find("save state");
             SAFE_CALL(o)->Change();
         }
-        else if(!ui_focused && l_shift && !pause_shift)
-        {        	
-            using namespace xOptions;
-			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (R2 L+B)");
-			#else
-			eOptionB* o = eOptionB::Find("pause");			
-			#endif
-            SAFE_CALL(o)->Change();
-            pause_shift = true;
-		}
+        //redefine L + B as change border
+        else if(!ui_focused && l_shift && !border_shift)
+		{
+			using namespace xOptions;
+			eOptionB* o = eOptionB::Find("border (L+B)");
+			SAFE_CALL(o)->Change();
+            border_shift = true;
+        }
 		else 
         {
         	return 'f';
@@ -278,7 +267,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		{
 			using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("fullscreen (L2 L+A)");
+			eOptionB* o = eOptionB::Find("fullscreen (L+A)");
 			#else
 			eOptionB* o = eOptionB::Find("fullscreen");			
 			#endif
@@ -290,7 +279,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         	return 'e';
 		}
 		break;
-
+/*
 	//case SDLK_RSHIFT:
 	case DINGOO_BUTTON_R2:
 		//redefine R2 as pause
@@ -298,11 +287,7 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 		if(!ui_focused && r2_shift)
 		{
 			using namespace xOptions;
-			#ifdef V90
-			eOptionB* o = eOptionB::Find("pause (R2 L+B)");
-			#else
-			eOptionB* o = eOptionB::Find("pause");			
-			#endif
+			eOptionB* o = eOptionB::Find("pause");
 			SAFE_CALL(o)->Change();
         }
 		break;
@@ -315,14 +300,14 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
         {
             using namespace xOptions;
 			#ifdef V90
-			eOptionB* o = eOptionB::Find("fullscreen (L2 L+A)");
+			eOptionB* o = eOptionB::Find("fullscreen (L+A)");
 			#else
 			eOptionB* o = eOptionB::Find("fullscreen");			
 			#endif
 			SAFE_CALL(o)->Change();
         }
 		break;
-
+*/
 #else 
 	case SDLK_LCTRL:	return 'f'; /* B button */
 	case SDLK_BACKSPACE:

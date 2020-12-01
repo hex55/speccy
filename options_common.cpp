@@ -121,15 +121,12 @@ static struct eOptionTape : public xOptions::eOptionInt
 	virtual int Order() const { return 40; }
 } op_tape;
 
+#ifndef V90
 static struct eOptionPause : public xOptions::eOptionBool
 {
 	eOptionPause() { storeable = false; }
-	#ifdef V90
-	virtual const char*	Name() const { return "pause (R2 L+B)"; }
-	#else
 	virtual const char* Name() const { return "pause"; }
-	#endif
-
+	
 	virtual void Change(bool next = true)
 	{
 		eOptionBool::Change();
@@ -137,6 +134,7 @@ static struct eOptionPause : public xOptions::eOptionBool
 	}
 	virtual int Order() const { return 70; }
 } op_pause;
+#endif
 
 static struct eOptionSound : public xOptions::eOptionInt
 {
@@ -204,7 +202,7 @@ static struct eOptionJoy : public xOptions::eOptionInt
 static struct eOptionBorderCustom : public xOptions::eOptionInt
 {
 	eOptionBorderCustom() { Set(BC_FULL); storeable = false; }
-	virtual const char* Name() const { return "border (L2 L+X)"; }
+	virtual const char* Name() const { return "border (L+B)"; }
 	virtual const char** Values() const
 	{
 		static const char* values[] = { "Full", "Medium", "Small", "Minium", NULL };

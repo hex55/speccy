@@ -277,7 +277,7 @@ void LoadConfig(char* file)
 			if (fullscreen)
 			{
 				#ifdef V90
-				eOptionB* oScreen = eOptionB::Find("fullscreen (L2 L+A)");
+				eOptionB* oScreen = eOptionB::Find("fullscreen (L+A)");
 				#else
 				eOptionB* oScreen = eOptionB::Find("fullscreen");			
 				#endif
@@ -294,7 +294,7 @@ void LoadConfig(char* file)
 			XMLElement* border = root->FirstChildElement("Border");
 			if (border)
 			{
-				eOptionB* oBorder = eOptionB::Find("border (L2 L+X)");
+				eOptionB* oBorder = eOptionB::Find("border (L+B)");
 				const char* v = border->GetText();
 				oBorder->Value(v ? v : "");
 				oBorder->Apply();
@@ -373,7 +373,7 @@ void StoreConfig(char* file)
 	XMLElement* fullScreen;
 	fullScreen = doc.NewElement("Fullscreen");
 	#ifdef V90
-	eOptionB* oScreen = eOptionB::Find("fullscreen (L2 L+A)");
+	eOptionB* oScreen = eOptionB::Find("fullscreen (L+A)");
 	#else
 	eOptionB* oScreen = eOptionB::Find("fullscreen");			
 	#endif
@@ -382,7 +382,7 @@ void StoreConfig(char* file)
 
 	//save border
 	XMLElement* borderSave = doc.NewElement("Border");
-	eOptionB* oBorder = eOptionB::Find("border (L2 L+X)");
+	eOptionB* oBorder = eOptionB::Find("border (L+B)");
 	borderSave->LinkEndChild(doc.NewText( oBorder->Value() ) );
 	root->LinkEndChild(borderSave);	
 
