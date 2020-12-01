@@ -248,6 +248,7 @@ static struct eOptionQuit : public xOptions::eOptionBool
 {
 	eOptionQuit() { storeable = false; }
 	virtual const char* Name() const { return "quit"; }
+	virtual const char*	Value() const { return "(L + R)"; }
 	virtual int Order() const { return 100; }
 	virtual const char** Values() const { return NULL; }
 } op_quit;

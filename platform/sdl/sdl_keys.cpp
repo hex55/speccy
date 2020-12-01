@@ -41,9 +41,9 @@ namespace xPlatform
 				//pause_shift = false, 
 				fullScreen_shift = false,
 				border_shift = false,
-				saveConfig_shift = false,
+				saveConfig_shift = false; //,
 				//l2_shift = false, r2_shift = false,
-	 			b_select = false, b_start = false;
+	 			//b_select = false, b_start = false;
 
 static bool ProcessFuncKey(SDL_Event& e)
 {
@@ -90,18 +90,22 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	{
 #ifdef SDL_POCKETGO_KEYS
 	case SDLK_ESCAPE: // DINGOO_BUTTON_SELECT:
+		/*	
 		b_select = _flags&KF_DOWN;
 		if(b_select && b_start)
 		{
 			OpQuit(true);
 		}
+		*/
 		return 'm';
 	case SDLK_RETURN: // DINGOO_BUTTON_START:
+		/*
 		b_start = _flags&KF_DOWN;
 		if(b_select && b_start)
 		{
 			OpQuit(true);
 		}
+		*/
 		return 'k';
 #else		
 	case SDLK_RSHIFT:	return 'c';
@@ -209,6 +213,10 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 
 	case DINGOO_BUTTON_L:	
 		l_shift = _flags&KF_DOWN;
+		if(l_shift && r_shift)
+		{
+			OpQuit(true);
+		}
 		/*
         if(pause_shift) 
         {
@@ -230,6 +238,10 @@ static byte TranslateKey(SDLKey _key, dword& _flags)
 	case DINGOO_BUTTON_R:
 		//redefine R as save state
 		r_shift = _flags&KF_DOWN;
+		if(l_shift && r_shift)
+		{
+			OpQuit(true);
+		}
     	return '4';
 		break;
 
